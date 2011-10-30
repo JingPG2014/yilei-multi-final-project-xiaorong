@@ -4,7 +4,7 @@
  * @author YileiQian
  *
  */
-public class VideoSummarize {
+public class videoSummarize {
 	public static void main(String args[]){
 		
 	}

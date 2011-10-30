@@ -1,5 +1,14 @@
 package gui;
 
-public class MainFrame {
+import javax.swing.JFrame;
+
+public class MainFrame extends JFrame {
+	public MainFrame() {
+
+	}
+
+	public MainFrame(String videoPath, String audioPath) {
+
+	}
 
 }
