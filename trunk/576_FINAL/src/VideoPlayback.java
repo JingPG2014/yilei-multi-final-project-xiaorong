@@ -1,4 +1,9 @@
 
+/**
+ * 
+ * @author YileiQian
+ *
+ */
 public class VideoPlayback {
 
 	/**
