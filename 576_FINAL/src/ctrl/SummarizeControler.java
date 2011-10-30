@@ -1,5 +1,7 @@
 package ctrl;
 
+import java.io.File;
+
 public class SummarizeControler {
 	private static SummarizeControler sc = null;
 
@@ -11,6 +13,10 @@ public class SummarizeControler {
 	}
 
 	private SummarizeControler() {
+		
+	}
+	
+	public void summarize(File video, File audio, double percentage){
 		
 	}
 }
