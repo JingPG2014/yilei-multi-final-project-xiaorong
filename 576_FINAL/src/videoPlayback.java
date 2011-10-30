@@ -4,7 +4,7 @@
  * @author YileiQian
  *
  */
-public class VideoPlayback {
+public class videoPlayback {
 
 	/**
 	 * @param args
