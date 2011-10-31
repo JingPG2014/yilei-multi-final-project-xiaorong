@@ -1,5 +1,7 @@
 package model;
 
-public class Sound {
+import java.io.FileInputStream;
 
+public class Sound {
+	private FileInputStream soundStream;
 }
