@@ -9,6 +9,7 @@ import ctrl.SummarizeControler;
  */
 public class videoSummarize {
 	public static void main(String args[]) {
+
 		if (args.length != 3) {
 			System.out.println("Format: Java videoSummarize videoInput"
 					+ ".rgb audioInput.wav percentage");
@@ -30,7 +31,7 @@ public class videoSummarize {
 			System.out.println("Audio Path is wrong");
 			System.exit(0);
 		}
-		
+
 		double percentage = 0.0;
 		try {
 			percentage = Double.parseDouble(percentageNum);
