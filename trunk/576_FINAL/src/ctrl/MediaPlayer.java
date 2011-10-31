@@ -1,5 +1,4 @@
 package ctrl;
 
-public class MediaPlayer {
-
+public abstract class MediaPlayer {
 }
