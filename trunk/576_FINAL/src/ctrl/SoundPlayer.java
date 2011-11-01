@@ -1,6 +1,6 @@
 package ctrl;
 
-public class SoundPlayer extends MediaPlayer {
+public class SoundPlayer{
 
 	private static SoundPlayer sp = null;
 
