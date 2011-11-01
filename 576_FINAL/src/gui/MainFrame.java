@@ -4,7 +4,10 @@ import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+
+import config.FrameConfig;
 
 public class MainFrame extends JFrame {
 	public MainFrame() {
@@ -16,16 +19,40 @@ public class MainFrame extends JFrame {
 	}
 
 	private void init(File videoPath, File audioPath) {
+		this.setBounds(0, 0, FrameConfig.FRAME_WIDTH, FrameConfig.FRAME_HEIGHT);
+
 		initComponents();
+
 	}
 
 	private void initComponents() {
-
+		initMenu();
 	}
 
 	private void initMenu() {
-		JMenu menu = new JMenu();
+		JMenuBar bar = new JMenuBar();
 
-		JMenuItem fileItem = new JMenuItem("File");
+		JMenu fileMenu = new JMenu("File");
+		bar.add(fileMenu);
+
+		JMenuItem newItem = new JMenuItem("New");
+		fileMenu.add(newItem);
+
+		JMenuItem openItem = new JMenuItem("Open");
+		fileMenu.add(openItem);
+
+		JMenuItem exitItem = new JMenuItem("Exit");
+		fileMenu.add(exitItem);
+
+		JMenu helpMenu = new JMenu("Help");
+		bar.add(helpMenu);
+
+		JMenuItem helpItem = new JMenuItem("Help");
+		helpMenu.add(helpItem);
+
+		JMenuItem aboutItem = new JMenuItem("About");
+		helpMenu.add(aboutItem);
+
+		setJMenuBar(bar);
 	}
 }

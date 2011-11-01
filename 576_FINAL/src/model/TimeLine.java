@@ -1,5 +1,7 @@
 package model;
 
-public class TimeLine {
+import java.util.ArrayList;
 
+public class TimeLine {
+	private ArrayList<Frame> frames;
 }
