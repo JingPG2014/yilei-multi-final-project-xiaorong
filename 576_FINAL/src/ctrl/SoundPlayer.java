@@ -15,7 +15,7 @@ import config.Configure;
 
 import exception.PlayWaveException;
 
-public class SoundPlayer {
+public class SoundPlayer extends Thread{
 
 	private static SoundPlayer sp = null;
 
