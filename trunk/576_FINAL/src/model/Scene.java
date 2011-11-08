@@ -1,5 +1,11 @@
 package model;
 
-public class Scene {
+import java.util.List;
 
+public class Scene {
+	private List<Shot> shots;
+
+	public Scene() {
+		
+	}
 }

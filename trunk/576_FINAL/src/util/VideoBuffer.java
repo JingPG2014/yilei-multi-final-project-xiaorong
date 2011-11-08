@@ -1,5 +1,6 @@
 package util;
 
+import model.Frame;
 import config.Configure;
 
 public class VideoBuffer {
@@ -14,11 +15,19 @@ public class VideoBuffer {
 	}
 
 	private int maxSize;
+	private Frame[] buffer;
 
 	private VideoBuffer() {
 		maxSize = Configure.BUFFER_SIZE * Configure.FRAME_RATE;
+
+		init();
 	}
-	
-	
-	
+
+	public void init() {
+		buffer = new Frame[maxSize];
+	}
+
+	public void close() {
+
+	}
 }

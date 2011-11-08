@@ -2,7 +2,8 @@ package ctrl;
 
 import java.io.File;
 
-public class VideoReader {
+public class VideoReader extends Thread{
+	
 	private static VideoReader vr = null;
 
 	public static VideoReader getInstance() {

@@ -1,6 +1,6 @@
 package ctrl;
 
-public class VideoPlayer {
+public class VideoPlayer extends Thread{
 
 	private static VideoPlayer vp = null;
 
