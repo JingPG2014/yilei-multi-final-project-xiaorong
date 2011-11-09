@@ -4,13 +4,20 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-public class VideoPane extends JPanel {
+import config.Configure;
 
-	public VideoPane() {
-		
-	}
+public class VideoPane extends JPanel implements RGBPlayer{
 	
-	public void refresh(BufferedImage image){
+	private int width;
+	private int height;
+	
+	public VideoPane() {
+		width = Configure.WIDTH;
+		height = Configure.HEIGHT;
+	}
+
+	@Override
+	public void fresh(BufferedImage image) {
 		
 	}
 }
