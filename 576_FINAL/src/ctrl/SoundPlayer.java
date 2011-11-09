@@ -29,7 +29,11 @@ public class SoundPlayer extends Thread{
 	private SoundPlayer() {
 
 	}
-
+	
+	public void init(){
+		
+	}
+	
 	public void play(FileInputStream waveStream) throws PlayWaveException {
 		AudioInputStream audioInputStream = null;
 		try {

@@ -1,6 +1,6 @@
 package ctrl;
 
-public class VideoPlayer extends Thread{
+public class VideoPlayer extends Thread {
 
 	private static VideoPlayer vp = null;
 
@@ -12,6 +12,10 @@ public class VideoPlayer extends Thread{
 	}
 
 	private VideoPlayer() {
+
+	}
+
+	public void init() {
 
 	}
 
