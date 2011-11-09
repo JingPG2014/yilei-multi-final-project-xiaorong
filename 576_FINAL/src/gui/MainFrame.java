@@ -19,7 +19,9 @@ public class MainFrame extends JFrame {
 	}
 
 	private void init(File videoPath, File audioPath) {
-		this.setBounds(0, 0, FrameConfig.FRAME_WIDTH, FrameConfig.FRAME_HEIGHT);
+		setBounds(0, 0, FrameConfig.FRAME_WIDTH, FrameConfig.FRAME_HEIGHT);
+
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		initComponents();
 
