@@ -14,9 +14,12 @@ public class MediaPlayer {
 	private VideoPlayer videoPlayer;
 
 	public MediaPlayer() {
-
+		soundPlayer = SoundPlayer.getInstance();
+		videoPlayer = videoPlayer.getInstance();
 	}
-
+	
+	
+	
 	public void startPlay() {
 
 	}
