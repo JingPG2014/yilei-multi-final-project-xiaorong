@@ -1,27 +1,19 @@
 package ctrl;
 
-public class MediaPlayer {
-	private static MediaPlayer mp = null;
+import model.Video;
 
-	public static MediaPlayer getInstance() {
-		if (mp == null) {
-			mp = new MediaPlayer();
-		}
-		return mp;
-	}
+public class MediaPlayer {
 
 	private SoundPlayer soundPlayer;
 	private VideoPlayer videoPlayer;
 
-	public MediaPlayer() {
-		soundPlayer = SoundPlayer.getInstance();
-		videoPlayer = videoPlayer.getInstance();
+	public MediaPlayer(Video video) {
+		soundPlayer = new SoundPlayer(video.getAudioFile());
+		videoPlayer = new VideoPlayer(video);
 	}
-	
-	
-	
-	public void startPlay() {
 
+	public void startPlay() {
+		soundPlayer.start();
 	}
 
 	public void continuePlay() {
