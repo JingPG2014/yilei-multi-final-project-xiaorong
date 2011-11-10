@@ -34,7 +34,7 @@ public class VideoReader {
 
 	}
 
-	public void init(File file) throws IOException {
+	public VideoReader init(File file) throws IOException {
 		if (is != null) {
 			is.close();
 		}
@@ -47,6 +47,7 @@ public class VideoReader {
 		imageLen = Configure.WIDTH * Configure.HEIGHT * 3;
 		currentTime = 0;
 		maxTime = (int) (file.length() / imageLen);
+		return this;
 	}
 
 	public int getMaxTime() {
@@ -110,9 +111,6 @@ public class VideoReader {
 
 	public static void main(String args[]) throws IOException {
 		File file = new File("data/terminator.rgb");
-		int frameSize = Configure.WIDTH * Configure.HEIGHT
-				* Configure.FRAME_RATE * 3;
-
 		JFrame frame = new JFrame();
 		VideoReader r = VideoReader.getInstance();
 		r.init(file);

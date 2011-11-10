@@ -1,5 +1,6 @@
 package ctrl;
 
+import gui.RGBPlayer;
 import model.Video;
 
 public class MediaPlayer {
@@ -7,12 +8,13 @@ public class MediaPlayer {
 	private SoundPlayer soundPlayer;
 	private VideoPlayer videoPlayer;
 
-	public MediaPlayer(Video video) {
+	public MediaPlayer(Video video, RGBPlayer player) {
 		soundPlayer = new SoundPlayer(video.getAudioFile());
-		videoPlayer = new VideoPlayer(video);
+		videoPlayer = new VideoPlayer(video, player);
 	}
 
 	public void startPlay() {
+		videoPlayer.start();
 		soundPlayer.start();
 	}
 

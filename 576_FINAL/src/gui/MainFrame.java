@@ -9,9 +9,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import config.FrameConfig;
+import ctrl.ProjectCenter;
 import ctrl.VideoReader;
 
 public class MainFrame extends JFrame {
+	private VideoPane videoPane;
+
 	public MainFrame() {
 		init(null, null);
 	}
@@ -33,8 +36,8 @@ public class MainFrame extends JFrame {
 
 	private void initCtrl(File video, File audio) {
 		try {
-			VideoReader.getInstance().init(video);
-			
+			ProjectCenter.getInstance().init(video, audio);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -42,6 +45,8 @@ public class MainFrame extends JFrame {
 
 	private void initComponents() {
 		initMenu();
+		videoPane = new VideoPane();
+		getContentPane().add(videoPane);
 	}
 
 	private void initMenu() {
@@ -69,5 +74,9 @@ public class MainFrame extends JFrame {
 		helpMenu.add(aboutItem);
 
 		setJMenuBar(bar);
+	}
+
+	public VideoPane getVideoPane() {
+		return videoPane;
 	}
 }
