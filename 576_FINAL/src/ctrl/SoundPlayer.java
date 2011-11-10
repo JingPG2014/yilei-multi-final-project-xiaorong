@@ -1,6 +1,8 @@
 package ctrl;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.sound.sampled.AudioFormat;
@@ -13,35 +15,34 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import config.Configure;
 
-import exception.PlayWaveException;
+public class SoundPlayer extends Thread {
 
-public class SoundPlayer extends Thread{
+	private File audioFile;
 
-	private static SoundPlayer sp = null;
+	public SoundPlayer(File audioFile) {
+		this.audioFile = audioFile;
+		init();
+	}
 
-	public static SoundPlayer getInstance() {
-		if (sp == null) {
-			sp = new SoundPlayer();
+	public void init() {
+
+	}
+
+	public void run() {
+		FileInputStream waveStream = null;
+		try {
+			waveStream = new FileInputStream(audioFile);
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
 		}
-		return sp;
-	}
 
-	private SoundPlayer() {
-
-	}
-	
-	public void init(){
-		
-	}
-	
-	public void play(FileInputStream waveStream) throws PlayWaveException {
 		AudioInputStream audioInputStream = null;
 		try {
 			audioInputStream = AudioSystem.getAudioInputStream(waveStream);
-		} catch (UnsupportedAudioFileException e1) {
-			throw new PlayWaveException(e1);
-		} catch (IOException e1) {
-			throw new PlayWaveException(e1);
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		// Obtain the information about the AudioInputStream
@@ -53,8 +54,8 @@ public class SoundPlayer extends Thread{
 		try {
 			dataLine = (SourceDataLine) AudioSystem.getLine(info);
 			dataLine.open(audioFormat, Configure.EXTERNAL_BUFFER_SIZE);
-		} catch (LineUnavailableException e1) {
-			throw new PlayWaveException(e1);
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
 		}
 
 		// Starts the music :P
@@ -71,8 +72,8 @@ public class SoundPlayer extends Thread{
 					dataLine.write(audioBuffer, 0, readBytes);
 				}
 			}
-		} catch (IOException e1) {
-			throw new PlayWaveException(e1);
+		} catch (IOException e) {
+			e.printStackTrace();
 		} finally {
 			// plays what's left and and closes the audioChannel
 			dataLine.drain();
