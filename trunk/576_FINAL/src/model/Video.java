@@ -22,6 +22,14 @@ public class Video {
 		return frames[i];
 	}
 
+	public File getVideoFile() {
+		return videoFile;
+	}
+
+	public File getAudioFile() {
+		return audioFile;
+	}
+
 	public String getVideoPath() {
 		return videoFile.getPath();
 	}
