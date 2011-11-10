@@ -1,5 +1,8 @@
 import java.io.File;
 
+import ctrl.MediaPlayer;
+import ctrl.ProjectCenter;
+
 import gui.MainFrame;
 
 /**
@@ -44,6 +47,8 @@ public class videoPlayback {
 
 		MainFrame frame = new MainFrame(video, audio);
 		frame.setVisible(true);
+		new MediaPlayer(ProjectCenter.getInstance().getVideo(),
+				frame.getVideoPane()).startPlay();
 	}
 
 }

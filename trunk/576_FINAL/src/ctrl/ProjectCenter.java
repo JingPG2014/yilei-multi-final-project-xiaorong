@@ -3,6 +3,7 @@ package ctrl;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +19,6 @@ public class ProjectCenter {
 		return pc;
 	}
 
-	private File videoFile;
-	private File audioFile;
-
 	private List<ActionListener> actionListeners;
 
 	private Video currentVideo;
@@ -29,9 +27,19 @@ public class ProjectCenter {
 		actionListeners = new ArrayList<ActionListener>();
 	}
 
-	public void init(File videoFile, File audioFile) {
-		this.videoFile = videoFile;
-		this.audioFile = audioFile;
+	public void init(File videoFile, File audioFile) throws IOException {
+		currentVideo = new Video(videoFile, audioFile, VideoReader
+				.getInstance().init(videoFile).getMaxTime());
+	}
+
+	public Video getVideo(){
+		return currentVideo;
+	}
+	
+	public void addListener(ActionListener actionListener) {
+		if (!actionListeners.contains(actionListener)) {
+			actionListeners.add(actionListener);
+		}
 	}
 
 	private void updateListeners(String inf) {

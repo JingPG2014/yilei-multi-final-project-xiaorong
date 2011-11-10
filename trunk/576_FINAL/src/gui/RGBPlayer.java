@@ -1,7 +1,7 @@
 package gui;
 
-import java.awt.image.BufferedImage;
+import java.awt.Image;
 
 public interface RGBPlayer {
-	public void fresh(BufferedImage image);
+	public void fresh(Image image);
 }
