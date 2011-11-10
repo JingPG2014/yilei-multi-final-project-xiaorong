@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -22,8 +23,12 @@ public class VideoReader {
 		return vr;
 	}
 
-	File file = null;
-	FileInputStream is = null;
+	private File file = null;
+	private RandomAccessFile is = null;
+
+	private int imageLen;
+	private int currentTime;
+	private int maxTime;
 
 	private VideoReader() {
 
@@ -37,56 +42,82 @@ public class VideoReader {
 			this.file = file;
 		}
 
-		is = new FileInputStream(file);
+		is = new RandomAccessFile(file, "r");
+
+		imageLen = Configure.WIDTH * Configure.HEIGHT * 3;
+		currentTime = 0;
+		maxTime = (int) (file.length() / imageLen);
 	}
 
-	public BufferedImage readFrame(int time) throws IOException {
+	public int getMaxTime() {
+		return maxTime;
+	}
 
-		int width = Configure.WIDTH;
-		int height = Configure.HEIGHT;
-
-		int len = width * height * 3;
-		byte[] bytes = new byte[len];
-
-		BufferedImage img = new BufferedImage(Configure.WIDTH,
-				Configure.HEIGHT, BufferedImage.TYPE_INT_RGB);
-
-		int offset = 0;
-		int numRead = 0;
-		while (offset < bytes.length
-				&& (numRead = is.read(bytes, offset, bytes.length - offset)) >= 0) {
-			offset += numRead;
+	public void readBuffers(BufferedImage[] buffer, int time) {
+		for (int i = 0; i < buffer.length; i++) {
+			buffer[i] = readFrame(time + i);
 		}
+	}
 
-		int ind = 0;
-		for (int y = 0; y < height; y++) {
-
-			for (int x = 0; x < width; x++) {
-
-				// byte a = 0;
-				byte r = bytes[ind];
-				byte g = bytes[ind + height * width];
-				byte b = bytes[ind + height * width * 2];
-
-				int pix = 0xff000000 | ((r & 0xff) << 16) | ((g & 0xff) << 8)
-						| (b & 0xff);
-				img.setRGB(x, y, pix);
-				ind++;
+	private BufferedImage readFrame(int time) {
+		try {
+			if (time >= maxTime) {
+				return null;
 			}
-		}
 
-		return img;
+			int width = Configure.WIDTH;
+			int height = Configure.HEIGHT;
+
+			int len = imageLen;
+			byte[] bytes = new byte[len];
+
+			BufferedImage img = new BufferedImage(Configure.WIDTH,
+					Configure.HEIGHT, BufferedImage.TYPE_INT_RGB);
+
+			int offset = 0;
+
+			if (currentTime != time) {
+				currentTime = time;
+
+				is.seek(currentTime * len);
+
+			}
+			is.read(bytes, offset, len);
+
+			int ind = 0;
+			for (int y = 0; y < height; y++) {
+				for (int x = 0; x < width; x++) {
+					byte r = bytes[ind];
+					byte g = bytes[ind + height * width];
+					byte b = bytes[ind + height * width * 2];
+
+					int pix = 0xff000000 | ((r & 0xff) << 16)
+							| ((g & 0xff) << 8) | (b & 0xff);
+					img.setRGB(x, y, pix);
+					ind++;
+				}
+			}
+
+			currentTime++;
+
+			return img;
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
+		return null;
 	}
 
 	public static void main(String args[]) throws IOException {
-		File file = new File("data/terminator3.rgb");
+		File file = new File("data/terminator.rgb");
 		int frameSize = Configure.WIDTH * Configure.HEIGHT
 				* Configure.FRAME_RATE * 3;
-		System.out.println(file.length() / frameSize);
+
 		JFrame frame = new JFrame();
 		VideoReader r = VideoReader.getInstance();
 		r.init(file);
-		BufferedImage img = r.readFrame(0);
+		System.out.println(r.getMaxTime());
+		BufferedImage img = r.readFrame(5000);
 		JLabel befLabel = new JLabel(new ImageIcon(img));
 		frame.getContentPane().add(befLabel);
 		frame.pack();

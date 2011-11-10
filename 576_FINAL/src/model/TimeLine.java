@@ -3,5 +3,12 @@ package model;
 import java.util.ArrayList;
 
 public class TimeLine {
-	private ArrayList<Frame> frames;
+
+	private Frame[] frames;
+
+	public TimeLine(int size) {
+		frames = new Frame[size];
+	}
+	
+	
 }
