@@ -63,7 +63,7 @@ public class VideoBuffer {
 			return outputBuffer[point - 1];
 		} else {
 			point = 1;
-			System.out.println(thread.isAlive());
+			//System.out.println(thread.isAlive());
 			BufferedImage[] temp = outputBuffer;
 			outputBuffer = inputBuffer;
 			inputBuffer = temp;
