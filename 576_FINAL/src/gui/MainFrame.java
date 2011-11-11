@@ -13,9 +13,19 @@ import ctrl.ProjectCenter;
 import ctrl.VideoReader;
 
 public class MainFrame extends JFrame {
+
+	private static MainFrame mf = null;
+
+	public static MainFrame getInstance() {
+		if (mf == null) {
+			mf = new MainFrame();
+		}
+		return mf;
+	}
+
 	private VideoPane videoPane;
 
-	public MainFrame() {
+	private MainFrame() {
 		init(null, null);
 	}
 
