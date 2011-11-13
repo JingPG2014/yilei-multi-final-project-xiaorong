@@ -23,9 +23,11 @@ public class VideoPlayer extends Thread {
 	}
 
 	public void run() {
-
+		
+		
 		for (int i = 0; i < 14400; i++) {
 			playerPane.fresh(VideoBuffer.getInstance().nextImage());
+			
 			try {
 				Thread.sleep(41);
 			} catch (InterruptedException e) {
