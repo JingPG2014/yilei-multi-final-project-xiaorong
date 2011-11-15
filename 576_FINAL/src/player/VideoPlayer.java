@@ -14,7 +14,7 @@ public class VideoPlayer extends Thread {
 	private RGBPlayer playerPane;
 	private VideoBuffer videoBuffer;
 
-	public VideoPlayer(Video video, RGBPlayer playerPane) {
+	public VideoPlayer(Video video, RGBPlayer playerPane, int timestamp) {
 		this.video = video;
 		this.playerPane = playerPane;
 		playerPane.fresh(video.getFrame(0).getImage());

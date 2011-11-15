@@ -29,12 +29,13 @@ public class ProjectCenter {
 
 	public void init(File videoFile, File audioFile) throws IOException {
 		currentVideo = new Video(videoFile, audioFile);
+		updateListeners("init");
 	}
 
-	public Video getVideo(){
+	public Video getVideo() {
 		return currentVideo;
 	}
-	
+
 	public void addListener(ActionListener actionListener) {
 		if (!actionListeners.contains(actionListener)) {
 			actionListeners.add(actionListener);

@@ -9,8 +9,8 @@ public class MediaPlayer {
 	private VideoPlayer videoPlayer;
 
 	public MediaPlayer(Video video, RGBPlayer player, int timestamp) {
-		soundPlayer = new SoundPlayer(video.getAudioFile());
-		videoPlayer = new VideoPlayer(video, player);
+		soundPlayer = new SoundPlayer(video, timestamp);
+		videoPlayer = new VideoPlayer(video, player, timestamp);
 	}
 
 	public void startPlay() {
