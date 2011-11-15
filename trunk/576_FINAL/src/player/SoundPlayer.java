@@ -21,16 +21,13 @@ public class SoundPlayer extends Thread {
 
 	private File audioFile;
 
+	private AudioInputStream audioInputStream = null;
+	private SourceDataLine dataLine = null;
+
+	private int bufferSize = 0;
+
 	public SoundPlayer(Video video, int timestamp) {
 		this.audioFile = video.getAudioFile();
-		init();
-	}
-
-	public void init() {
-
-	}
-
-	public void run() {
 		FileInputStream waveStream = null;
 		try {
 			waveStream = new FileInputStream(audioFile);
@@ -38,7 +35,6 @@ public class SoundPlayer extends Thread {
 			e1.printStackTrace();
 		}
 
-		AudioInputStream audioInputStream = null;
 		try {
 			audioInputStream = AudioSystem.getAudioInputStream(waveStream);
 		} catch (UnsupportedAudioFileException e) {
@@ -49,30 +45,42 @@ public class SoundPlayer extends Thread {
 
 		// Obtain the information about the AudioInputStream
 		AudioFormat audioFormat = audioInputStream.getFormat();
+		System.out.println(audioFormat);
+		bufferSize = (int) audioFormat.getFrameRate()
+				* audioFormat.getFrameSize();
 		Info info = new Info(SourceDataLine.class, audioFormat);
 
-		// opens the audio channel
-		SourceDataLine dataLine = null;
 		try {
 			dataLine = (SourceDataLine) AudioSystem.getLine(info);
-			dataLine.open(audioFormat, Configure.EXTERNAL_BUFFER_SIZE);
+			dataLine.open(audioFormat);
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
 		}
-
 		// Starts the music :P
+
+		// opens the audio channel
+
+	}
+
+	public void run() {
 		dataLine.start();
-
 		int readBytes = 0;
-		byte[] audioBuffer = new byte[Configure.EXTERNAL_BUFFER_SIZE];
+		byte[] audioBuffer = new byte[bufferSize];
 
+		
+		int i = 0;
 		try {
+			
 			while (readBytes != -1) {
+				long start = System.currentTimeMillis();
 				readBytes = audioInputStream.read(audioBuffer, 0,
 						audioBuffer.length);
+
 				if (readBytes >= 0) {
 					dataLine.write(audioBuffer, 0, readBytes);
 				}
+				long end = System.currentTimeMillis();
+				System.out.println((end - start));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

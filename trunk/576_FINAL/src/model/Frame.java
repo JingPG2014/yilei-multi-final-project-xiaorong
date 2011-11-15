@@ -17,4 +17,6 @@ public class Frame {
 	public Image getImage() {
 		return vb.getImage(timestamp);
 	}
+	
+	public 
 }
