@@ -15,27 +15,17 @@ import config.Configure;
 
 public class VideoReader {
 
-	private static VideoReader vr = null;
-
-	public static VideoReader getInstance() {
-		if (vr == null) {
-			vr = new VideoReader();
-		}
-		return vr;
+	public static int getMaxTime(File videoFile) {
+		return (int) (videoFile.length() / Configure.IMAGE_LENGTH);
 	}
 
 	private File file = null;
 	private RandomAccessFile is = null;
 
-	private int imageLen;
 	private int currentTime;
 	private int maxTime;
 
-	private VideoReader() {
-
-	}
-
-	public VideoReader init(File file) throws IOException {
+	public VideoReader(File file) throws IOException {
 		if (is != null) {
 			is.close();
 		}
@@ -45,10 +35,8 @@ public class VideoReader {
 
 		is = new RandomAccessFile(file, "r");
 
-		imageLen = Configure.WIDTH * Configure.HEIGHT * 3;
 		currentTime = 0;
-		maxTime = (int) (file.length() / imageLen);
-		return this;
+		maxTime = getMaxTime(file);
 	}
 
 	public int getMaxTime() {
@@ -70,7 +58,7 @@ public class VideoReader {
 			int width = Configure.WIDTH;
 			int height = Configure.HEIGHT;
 
-			int len = imageLen;
+			int len = Configure.IMAGE_LENGTH;
 			byte[] bytes = new byte[len];
 
 			BufferedImage img = new BufferedImage(Configure.WIDTH,

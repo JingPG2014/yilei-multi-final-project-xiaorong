@@ -3,8 +3,8 @@ package model;
 import java.io.File;
 import java.io.IOException;
 
+import util.VideoBuffer;
 import util.VideoReader;
-
 
 public class Video {
 
@@ -16,8 +16,12 @@ public class Video {
 	public Video(File video, File audio) throws IOException {
 		videoFile = video;
 		audioFile = audio;
-		int length = VideoReader.getInstance().init(videoFile).getMaxTime();
+		int length = VideoReader.getMaxTime(video);
+		VideoBuffer.getInstance().init(video, 0);
 		frames = new Frame[length];
+		for (int i = 0; i < frames.length; i++) {
+			frames[i] = new Frame(i);
+		}
 	}
 
 	public Frame getFrame(int i) {

@@ -13,14 +13,16 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import model.Video;
+
 import config.Configure;
 
 public class SoundPlayer extends Thread {
 
 	private File audioFile;
 
-	public SoundPlayer(File audioFile) {
-		this.audioFile = audioFile;
+	public SoundPlayer(Video video, int timestamp) {
+		this.audioFile = video.getAudioFile();
 		init();
 	}
 

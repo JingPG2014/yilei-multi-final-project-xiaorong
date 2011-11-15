@@ -41,18 +41,21 @@ public class VideoBuffer {
 		maxSize = Configure.BUFFER_SIZE * Configure.FRAME_RATE;
 		outputBuffer = new Image[maxSize];
 		inputBuffer = new Image[maxSize];
-		init(0);
 	}
 
-	public void init(int timestamp) {
+	public void init(File file, int timestamp) throws IOException {
+		System.out.print("Initialize VideoBuffer: ");
 
 		clearBuffers();
 
+		reader = new VideoReader(file);
 		reader.readBuffers(outputBuffer, timestamp);
 
 		bufferPoint += inputBuffer.length;
 
 		loadBuffer();
+
+		System.out.println("Finish!");
 	}
 
 	public Image getImage(int timestamp) {
@@ -88,7 +91,7 @@ public class VideoBuffer {
 	}
 
 	private void loadBuffer() {
-		thread = new BufferThread(inputBuffer, bufferPoint);
+		thread = new BufferThread(inputBuffer, bufferPoint, reader);
 		thread.start();
 		changed = true;
 	}
@@ -111,15 +114,16 @@ class BufferThread extends Thread {
 
 	private Image[] buffer;
 	private int time;
+	private VideoReader vr;
 
-	public BufferThread(Image[] buffer, int time) {
+	public BufferThread(Image[] buffer, int time, VideoReader vr) {
 		super();
 		this.buffer = buffer;
 		this.time = time;
+		this.vr = vr;
 	}
 
 	public void run() {
-		VideoReader vr = VideoReader.getInstance();
 		vr.readBuffers(buffer, time);
 	}
 }
