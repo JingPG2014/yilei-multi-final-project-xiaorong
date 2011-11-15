@@ -67,7 +67,8 @@ public class SoundPlayer extends Thread {
 	}
 
 	public void run() {
-
+		System.out.println("SoundPlayer: "
+				+ (System.currentTimeMillis() - initTime));
 		dataLine.start();
 		int readBytes = 0;
 		byte[] audioBuffer = new byte[bufferSize];
@@ -78,12 +79,13 @@ public class SoundPlayer extends Thread {
 				long start = System.currentTimeMillis();
 				readBytes = audioInputStream.read(audioBuffer, 0,
 						audioBuffer.length);
-
+				long mid = System.currentTimeMillis();
 				if (readBytes >= 0) {
 					dataLine.write(audioBuffer, 0, readBytes);
 				}
 				long end = System.currentTimeMillis();
-				System.out.println((end - start));
+				System.out.println((mid - start));
+				System.out.println((end - mid));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
