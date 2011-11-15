@@ -3,13 +3,9 @@ package util;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
+
 import java.io.IOException;
 import java.io.RandomAccessFile;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 import config.Configure;
 
@@ -19,7 +15,6 @@ public class VideoReader {
 		return (int) (videoFile.length() / Configure.IMAGE_LENGTH);
 	}
 
-	private File file = null;
 	private RandomAccessFile is = null;
 
 	private int currentTime;
@@ -28,9 +23,6 @@ public class VideoReader {
 	public VideoReader(File file) throws IOException {
 		if (is != null) {
 			is.close();
-		}
-		if (file != null) {
-			this.file = file;
 		}
 
 		is = new RandomAccessFile(file, "r");

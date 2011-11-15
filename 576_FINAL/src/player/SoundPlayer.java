@@ -76,16 +76,16 @@ public class SoundPlayer extends Thread {
 		try {
 
 			while (readBytes != -1) {
-				long start = System.currentTimeMillis();
+				long start = System.nanoTime();
 				readBytes = audioInputStream.read(audioBuffer, 0,
 						audioBuffer.length);
-				long mid = System.currentTimeMillis();
+				long mid = System.nanoTime();
 				if (readBytes >= 0) {
 					dataLine.write(audioBuffer, 0, readBytes);
 				}
 				long end = System.currentTimeMillis();
-				System.out.println((mid - start));
-				System.out.println((end - mid));
+				System.out.println((mid - start)/1000);
+				//System.out.println((end - mid));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
