@@ -1,4 +1,4 @@
-package ctrl;
+package player;
 
 import java.io.File;
 import java.io.FileInputStream;
