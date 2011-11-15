@@ -1,7 +1,5 @@
 package player;
 
-import util.VideoBuffer;
-
 import gui.RGBPlayer;
 import model.Video;
 
@@ -9,11 +7,16 @@ public class VideoPlayer extends Thread {
 
 	private Video video;
 	private RGBPlayer playerPane;
+	private long initTime;
 
 	public VideoPlayer(Video video, RGBPlayer playerPane, int timestamp) {
 		this.video = video;
 		this.playerPane = playerPane;
 		playerPane.fresh(video.getFrame(0).getImage());
+	}
+
+	public void setInitTime(long initTime) {
+		this.initTime = initTime;
 	}
 
 	public void run() {
@@ -27,9 +30,9 @@ public class VideoPlayer extends Thread {
 			// System.out.println(starttime);
 			playerPane.fresh(video.getFrame(i).getImage());
 			endtime = System.currentTimeMillis();
-			//if (i % 24 == 0) {
-			//	System.out.println(endtime - begintime);
-			//}
+			// if (i % 24 == 0) {
+			// System.out.println(endtime - begintime);
+			// }
 			// System.out.println(endtime - starttime);
 
 			try {

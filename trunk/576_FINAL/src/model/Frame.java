@@ -18,5 +18,4 @@ public class Frame {
 		return vb.getImage(timestamp);
 	}
 	
-	public 
 }

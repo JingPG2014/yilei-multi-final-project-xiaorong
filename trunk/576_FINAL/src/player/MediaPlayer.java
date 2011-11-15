@@ -14,6 +14,9 @@ public class MediaPlayer {
 	}
 
 	public void startPlay() {
+		long initTime = System.currentTimeMillis();
+		videoPlayer.setInitTime(initTime);
+		soundPlayer.setInitTime(initTime);
 		videoPlayer.start();
 		soundPlayer.start();
 	}

@@ -15,14 +15,14 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import model.Video;
 
-import config.Configure;
-
 public class SoundPlayer extends Thread {
 
 	private File audioFile;
 
 	private AudioInputStream audioInputStream = null;
 	private SourceDataLine dataLine = null;
+
+	private long initTime;
 
 	private int bufferSize = 0;
 
@@ -62,15 +62,18 @@ public class SoundPlayer extends Thread {
 
 	}
 
+	public void setInitTime(long initTime) {
+		this.initTime = initTime;
+	}
+
 	public void run() {
+
 		dataLine.start();
 		int readBytes = 0;
 		byte[] audioBuffer = new byte[bufferSize];
 
-		
-		int i = 0;
 		try {
-			
+
 			while (readBytes != -1) {
 				long start = System.currentTimeMillis();
 				readBytes = audioInputStream.read(audioBuffer, 0,
