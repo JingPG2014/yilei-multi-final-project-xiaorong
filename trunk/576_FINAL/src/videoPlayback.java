@@ -1,6 +1,7 @@
 import java.io.File;
 
-import ctrl.MediaPlayer;
+import player.MediaPlayer;
+
 import ctrl.ProjectCenter;
 
 import gui.MainFrame;

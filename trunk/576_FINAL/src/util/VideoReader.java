@@ -109,17 +109,4 @@ public class VideoReader {
 		}
 		return null;
 	}
-
-	public static void main(String args[]) throws IOException {
-		File file = new File("data/terminator.rgb");
-		JFrame frame = new JFrame();
-		VideoReader r = VideoReader.getInstance();
-		r.init(file);
-		System.out.println(r.getMaxTime());
-		Image img = r.readFrame(5000);
-		JLabel befLabel = new JLabel(new ImageIcon(img));
-		frame.getContentPane().add(befLabel);
-		frame.pack();
-		frame.setVisible(true);
-	}
 }

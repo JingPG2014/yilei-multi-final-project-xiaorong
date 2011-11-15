@@ -28,31 +28,38 @@ public class VideoBuffer {
 	private int point;
 	private int bufferPoint;
 
+	private VideoReader reader;
+
 	private boolean changed;
 
-	private BufferedImage[] outputBuffer;
-	private BufferedImage[] inputBuffer;
+	private Image[] outputBuffer;
+	private Image[] inputBuffer;
 
 	private BufferThread thread;
 
 	private VideoBuffer() {
 		maxSize = Configure.BUFFER_SIZE * Configure.FRAME_RATE;
-		init();
+		outputBuffer = new Image[maxSize];
+		inputBuffer = new Image[maxSize];
+		init(0);
 	}
 
-	public void init() {
-		outputBuffer = new BufferedImage[maxSize];
-		inputBuffer = new BufferedImage[maxSize];
-		VideoReader.getInstance().readBuffers(outputBuffer, 0);
+	public void init(int timestamp) {
+
+		clearBuffers();
+
+		reader.readBuffers(outputBuffer, timestamp);
+
 		bufferPoint += inputBuffer.length;
+
 		loadBuffer();
 	}
-	
-	public Image getImage(int timestamp){
+
+	public Image getImage(int timestamp) {
 		return nextImage();
 	}
-	
-	public BufferedImage nextImage() {
+
+	public Image nextImage() {
 		if (changed && !thread.isAlive()) {
 			bufferPoint += outputBuffer.length;
 			changed = false;
@@ -62,9 +69,16 @@ public class VideoBuffer {
 			point++;
 			return outputBuffer[point - 1];
 		} else {
+			while (thread.isAlive()) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+
 			point = 1;
-			//System.out.println(thread.isAlive());
-			BufferedImage[] temp = outputBuffer;
+			Image[] temp = outputBuffer;
 			outputBuffer = inputBuffer;
 			inputBuffer = temp;
 			loadBuffer();
@@ -79,43 +93,26 @@ public class VideoBuffer {
 		changed = true;
 	}
 
-	public void close() {
-
+	private void clearBuffers() {
+		for (int i = 0; i < outputBuffer.length; i++) {
+			outputBuffer[i] = null;
+		}
+		for (int i = 0; i < inputBuffer.length; i++) {
+			inputBuffer[i] = null;
+		}
 	}
 
-	public static void main(String args[]) throws IOException {
-		File file = new File("data/terminator.rgb");
+	public void close() {
 
-		JFrame frame = new JFrame();
-		VideoReader r = VideoReader.getInstance();
-		VideoReader.getInstance().init(file);
-		VideoBuffer vb = VideoBuffer.getInstance();
-
-		System.out.println(r.getMaxTime());
-		JLabel befLabel = new JLabel(new ImageIcon(vb.nextImage()));
-		frame.getContentPane().add(befLabel);
-		frame.pack();
-		frame.setVisible(true);
-
-		
-		for (int i = 0; i < 14400; i++) {
-			befLabel.setIcon(new ImageIcon(vb.nextImage()));
-			try {
-				Thread.sleep(40);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 	}
 }
 
 class BufferThread extends Thread {
 
-	private BufferedImage[] buffer;
+	private Image[] buffer;
 	private int time;
 
-	public BufferThread(BufferedImage[] buffer, int time) {
+	public BufferThread(Image[] buffer, int time) {
 		super();
 		this.buffer = buffer;
 		this.time = time;

@@ -1,4 +1,4 @@
-package ctrl;
+package player;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -17,8 +17,7 @@ public class VideoPlayer extends Thread {
 	public VideoPlayer(Video video, RGBPlayer playerPane) {
 		this.video = video;
 		this.playerPane = playerPane;
-		videoBuffer = videoBuffer.getInstance();
-		playerPane.fresh(VideoBuffer.getInstance().nextImage());
+		playerPane.fresh(video.getFrame(0).getImage());
 	}
 
 	public void run() {
@@ -27,7 +26,7 @@ public class VideoPlayer extends Thread {
 
 			long starttime = System.currentTimeMillis();
 			// System.out.println(starttime);
-			playerPane.fresh(VideoBuffer.getInstance().nextImage());
+			playerPane.fresh(video.getFrame(i).getImage());
 			long endtime = System.currentTimeMillis();
 			// System.out.println(endtime - starttime);
 
