@@ -8,9 +8,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import util.VideoReader;
+
 import config.FrameConfig;
 import ctrl.ProjectCenter;
-import ctrl.VideoReader;
 
 public class MainFrame extends JFrame {
 

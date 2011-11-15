@@ -28,8 +28,7 @@ public class ProjectCenter {
 	}
 
 	public void init(File videoFile, File audioFile) throws IOException {
-		currentVideo = new Video(videoFile, audioFile, VideoReader
-				.getInstance().init(videoFile).getMaxTime());
+		currentVideo = new Video(videoFile, audioFile);
 	}
 
 	public Video getVideo(){

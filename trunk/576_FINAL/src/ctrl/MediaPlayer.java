@@ -8,7 +8,7 @@ public class MediaPlayer {
 	private SoundPlayer soundPlayer;
 	private VideoPlayer videoPlayer;
 
-	public MediaPlayer(Video video, RGBPlayer player) {
+	public MediaPlayer(Video video, RGBPlayer player, int time) {
 		soundPlayer = new SoundPlayer(video.getAudioFile());
 		videoPlayer = new VideoPlayer(video, player);
 	}
@@ -27,6 +27,7 @@ public class MediaPlayer {
 	}
 
 	public void stop() {
-
+		videoPlayer.interrupt();
+		soundPlayer.interrupt();
 	}
 }
