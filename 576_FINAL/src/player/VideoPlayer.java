@@ -1,8 +1,5 @@
 package player;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-
 import util.VideoBuffer;
 
 import gui.RGBPlayer;
@@ -12,7 +9,6 @@ public class VideoPlayer extends Thread {
 
 	private Video video;
 	private RGBPlayer playerPane;
-	private VideoBuffer videoBuffer;
 
 	public VideoPlayer(Video video, RGBPlayer playerPane, int timestamp) {
 		this.video = video;
@@ -21,20 +17,31 @@ public class VideoPlayer extends Thread {
 	}
 
 	public void run() {
+		long begintime = System.currentTimeMillis();
+		long starttime = begintime;
+		long endtime = begintime;
 
-		for (int i = 0; i < 14400; i++) {
+		for (int i = 0; i < video.getLength(); i++) {
 
-			long starttime = System.currentTimeMillis();
+			starttime = System.currentTimeMillis();
 			// System.out.println(starttime);
 			playerPane.fresh(video.getFrame(i).getImage());
-			long endtime = System.currentTimeMillis();
+			endtime = System.currentTimeMillis();
+			//if (i % 24 == 0) {
+			//	System.out.println(endtime - begintime);
+			//}
 			// System.out.println(endtime - starttime);
 
 			try {
-				if (i % 3 == 0) {
-					Thread.sleep(41 - (endtime - starttime) + i % 3);
+				if (i % 24 == 0) {
+					int wait = (int) (41 - (endtime - begintime - i / 24 * 1000));
+					if (wait > 0) {
+						Thread.sleep(41 - (endtime - begintime - i / 24 * 1000));
+					}
+				} else if (i % 3 == 0) {
+					Thread.sleep(41 - (endtime - starttime));
 				} else {
-					Thread.sleep(41 - (endtime - starttime) + i % 3);
+					Thread.sleep(42 - (endtime - starttime));
 				}
 
 			} catch (InterruptedException e) {

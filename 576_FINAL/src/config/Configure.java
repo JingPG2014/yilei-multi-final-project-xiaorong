@@ -10,5 +10,5 @@ public class Configure {
 
 	public static final int BUFFER_SIZE = 10;
 
-	public static final int EXTERNAL_BUFFER_SIZE = 524288;
+	//public static final int EXTERNAL_BUFFER_SIZE = 441000;
 }
