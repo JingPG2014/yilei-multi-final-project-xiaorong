@@ -18,4 +18,7 @@ public class Frame {
 		return vb.getImage(timestamp);
 	}
 	
+	public byte[] getAudio(){
+		return null;
+	}
 }

@@ -20,6 +20,9 @@ public class VideoPlayer extends Thread {
 	}
 
 	public void run() {
+
+		System.out.println("VideoPlayer: "
+				+ (System.currentTimeMillis() - initTime));
 		long begintime = System.currentTimeMillis();
 		long starttime = begintime;
 		long endtime = begintime;
