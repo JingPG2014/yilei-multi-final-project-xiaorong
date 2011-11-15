@@ -1,5 +1,6 @@
 package util;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +12,6 @@ import javax.swing.JLabel;
 import model.Frame;
 import model.Video;
 import config.Configure;
-import ctrl.VideoReader;
 
 public class VideoBuffer {
 
@@ -30,8 +30,6 @@ public class VideoBuffer {
 
 	private boolean changed;
 
-	private Video video;
-
 	private BufferedImage[] outputBuffer;
 	private BufferedImage[] inputBuffer;
 
@@ -39,7 +37,6 @@ public class VideoBuffer {
 
 	private VideoBuffer() {
 		maxSize = Configure.BUFFER_SIZE * Configure.FRAME_RATE;
-
 		init();
 	}
 
@@ -49,9 +46,12 @@ public class VideoBuffer {
 		VideoReader.getInstance().readBuffers(outputBuffer, 0);
 		bufferPoint += inputBuffer.length;
 		loadBuffer();
-
 	}
-
+	
+	public Image getImage(int timestamp){
+		return nextImage();
+	}
+	
 	public BufferedImage nextImage() {
 		if (changed && !thread.isAlive()) {
 			bufferPoint += outputBuffer.length;

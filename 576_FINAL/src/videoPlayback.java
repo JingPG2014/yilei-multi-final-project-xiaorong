@@ -48,7 +48,7 @@ public class videoPlayback {
 		MainFrame frame = new MainFrame(video, audio);
 		frame.setVisible(true);
 		new MediaPlayer(ProjectCenter.getInstance().getVideo(),
-				frame.getVideoPane()).startPlay();
+				frame.getVideoPane(), 0).startPlay();
 	}
 
 }

@@ -1,6 +1,10 @@
 package model;
 
 import java.io.File;
+import java.io.IOException;
+
+import util.VideoReader;
+
 
 public class Video {
 
@@ -9,10 +13,11 @@ public class Video {
 
 	private Frame[] frames;
 
-	public Video(File video, File audio, int size) {
+	public Video(File video, File audio) throws IOException {
 		videoFile = video;
 		audioFile = audio;
-		frames = new Frame[size];
+		int length = VideoReader.getInstance().init(videoFile).getMaxTime();
+		frames = new Frame[length];
 	}
 
 	public Frame getFrame(int i) {
@@ -20,6 +25,10 @@ public class Video {
 			return null;
 		}
 		return frames[i];
+	}
+
+	public int getLength() {
+		return frames.length;
 	}
 
 	public File getVideoFile() {

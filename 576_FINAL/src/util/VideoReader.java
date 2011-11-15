@@ -1,5 +1,6 @@
-package ctrl;
+package util;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -54,15 +55,15 @@ public class VideoReader {
 		return maxTime;
 	}
 
-	public void readBuffers(BufferedImage[] buffer, int time) {
+	public void readBuffers(Image[] buffer, int time) {
 		for (int i = 0; i < buffer.length; i++) {
 			buffer[i] = readFrame(time + i);
 		}
 	}
 
-	private BufferedImage readFrame(int time) {
+	private Image readFrame(int timestamp) {
 		try {
-			if (time >= maxTime) {
+			if (timestamp >= maxTime) {
 				return null;
 			}
 
@@ -77,8 +78,8 @@ public class VideoReader {
 
 			int offset = 0;
 
-			if (currentTime != time) {
-				currentTime = time;
+			if (currentTime != timestamp) {
+				currentTime = timestamp;
 
 				is.seek(currentTime * len);
 
@@ -115,7 +116,7 @@ public class VideoReader {
 		VideoReader r = VideoReader.getInstance();
 		r.init(file);
 		System.out.println(r.getMaxTime());
-		BufferedImage img = r.readFrame(5000);
+		Image img = r.readFrame(5000);
 		JLabel befLabel = new JLabel(new ImageIcon(img));
 		frame.getContentPane().add(befLabel);
 		frame.pack();
