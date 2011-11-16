@@ -13,13 +13,12 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import util.AudioBuffer;
+
 import model.Video;
 
 public class SoundPlayer extends Thread {
 
-	private File audioFile;
-
-	private AudioInputStream audioInputStream = null;
 	private SourceDataLine dataLine = null;
 
 	private long initTime;
@@ -27,27 +26,11 @@ public class SoundPlayer extends Thread {
 	private int bufferSize = 0;
 
 	public SoundPlayer(Video video, int timestamp) {
-		this.audioFile = video.getAudioFile();
-		FileInputStream waveStream = null;
-		try {
-			waveStream = new FileInputStream(audioFile);
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		}
-
-		try {
-			audioInputStream = AudioSystem.getAudioInputStream(waveStream);
-		} catch (UnsupportedAudioFileException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
 		// Obtain the information about the AudioInputStream
-		AudioFormat audioFormat = audioInputStream.getFormat();
-		System.out.println(audioFormat);
-		bufferSize = (int) audioFormat.getFrameRate()
-				* audioFormat.getFrameSize();
+
+		AudioFormat audioFormat = AudioBuffer.getInstance().getAudioFormat();
+
 		Info info = new Info(SourceDataLine.class, audioFormat);
 
 		try {
@@ -70,29 +53,30 @@ public class SoundPlayer extends Thread {
 		System.out.println("SoundPlayer: "
 				+ (System.currentTimeMillis() - initTime));
 		dataLine.start();
-		int readBytes = 0;
-		byte[] audioBuffer = new byte[bufferSize];
 
-		try {
+		long beginTime = System.currentTimeMillis();
+		int i = 0;
 
-			while (readBytes != -1) {
-				long start = System.nanoTime();
-				readBytes = audioInputStream.read(audioBuffer, 0,
-						audioBuffer.length);
-				long mid = System.nanoTime();
-				if (readBytes >= 0) {
-					dataLine.write(audioBuffer, 0, readBytes);
+		AudioBuffer buffer = AudioBuffer.getInstance();
+		byte[] audioBuffer = buffer.getNextSecond();
+
+		while (audioBuffer != null) {
+			//System.out.println((System.currentTimeMillis() - beginTime) - 1000 * i);
+			if (((System.currentTimeMillis() - beginTime) - 1000 * i) > -2000) {
+				//System.out.println("Audio: Wait");
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
-				long end = System.currentTimeMillis();
-				System.out.println((mid - start)/1000);
-				//System.out.println((end - mid));
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			// plays what's left and and closes the audioChannel
-			dataLine.drain();
-			dataLine.close();
+			
+			dataLine.write(audioBuffer, 0, audioBuffer.length);
+			audioBuffer = buffer.getNextSecond();
+
+			//System.out.println(i++);
+			//System.out.println("Auido: "
+			//		+ (System.currentTimeMillis() - beginTime));
 		}
 	}
 }

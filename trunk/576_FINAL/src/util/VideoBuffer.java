@@ -1,16 +1,9 @@
 package util;
 
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-
-import model.Frame;
-import model.Video;
 import config.Configure;
 
 public class VideoBuffer {

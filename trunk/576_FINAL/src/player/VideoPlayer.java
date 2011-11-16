@@ -43,6 +43,8 @@ public class VideoPlayer extends Thread {
 					int wait = (int) (41 - (endtime - begintime - i / 24 * 1000));
 					if (wait > 0) {
 						Thread.sleep(41 - (endtime - begintime - i / 24 * 1000));
+						// System.out.println("Video: " + (endtime -
+						// begintime));
 					}
 				} else if (i % 3 == 0) {
 					Thread.sleep(41 - (endtime - starttime));
