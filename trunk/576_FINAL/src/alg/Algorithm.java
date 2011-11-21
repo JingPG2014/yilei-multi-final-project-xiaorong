@@ -1,5 +1,7 @@
 package alg;
 
+import model.Video;
+
 public abstract class Algorithm {
 
 	private Algorithm nextAlgorithm;
@@ -11,10 +13,17 @@ public abstract class Algorithm {
 		this.context = context;
 	}
 
-	public void process() {
+	public void processAll() {
+		Video video = context.getVideo();
+		for (int i = 0; i < video.getLength(); i++) {
+			process(i);
+		}
+	}
+
+	private void process(int timestamp) {
 		preProcess();
 		if (nextAlgorithm != null) {
-			nextAlgorithm.process();
+			nextAlgorithm.process(timestamp);
 		}
 		proProcess();
 	}

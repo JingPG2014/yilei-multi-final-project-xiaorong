@@ -9,6 +9,10 @@ public class Context {
 	public Context(Video video) {
 		this.video = video;
 	}
+	
+	public Video getVideo() {
+		return video;
+	}
 
 	public void processAll() {
 		for (int i = 0; i < video.getLength(); i++) {
@@ -19,4 +23,5 @@ public class Context {
 	public void process(int timestamp) {
 		
 	}
+
 }
