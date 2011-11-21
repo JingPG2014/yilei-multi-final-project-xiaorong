@@ -97,7 +97,7 @@ public class AudioBuffer {
 	}
 
 	public byte[] getNextSecond() {
-		
+
 		if (changed && !thread.isAlive()) {
 			// bufferPoint += outputBuffer.size() * frameSize;
 			changed = false;
@@ -107,6 +107,17 @@ public class AudioBuffer {
 			point++;
 			return outputBuffer.get(point - 1);
 		} else {
+
+			if (thread.isAlive()) {
+				while (thread.isAlive()) {
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				changed = false;
+			}
 
 			point = 1;
 
@@ -147,23 +158,22 @@ class AudioBufferThread extends Thread {
 	}
 
 	public void run() {
-		System.out.print("Load Audio: ");
+		//System.out.print("Load Audio: ");
 		buffer.clear();
 
 		int readBytes;
 		try {
 			for (int i = 0; i < length; i++) {
 				byte[] audioBuffer = new byte[frameSize];
-				readBytes = audioInputStream.read(audioBuffer, 0,
-						frameSize);
-				//System.out.println(audioBuffer.length);
+				readBytes = audioInputStream.read(audioBuffer, 0, frameSize);
+				// System.out.println(audioBuffer.length);
 				buffer.add(audioBuffer);
-				
+
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Finish");
+		//System.out.println("Finish");
 	}
 }

@@ -39,17 +39,16 @@ public class VideoPlayer extends Thread {
 			// System.out.println(endtime - starttime);
 
 			try {
+				int wait = 0;
 				if (i % 24 == 0) {
-					int wait = (int) (41 - (endtime - begintime - i / 24 * 1000));
-					if (wait > 0) {
-						Thread.sleep(41 - (endtime - begintime - i / 24 * 1000));
-						// System.out.println("Video: " + (endtime -
-						// begintime));
-					}
+					wait = (int) (41 - (endtime - begintime - i / 24 * 1000));
 				} else if (i % 3 == 0) {
-					Thread.sleep(41 - (endtime - starttime));
+					wait = (int) (41 - (endtime - starttime));
 				} else {
-					Thread.sleep(42 - (endtime - starttime));
+					wait = (int) (42 - (endtime - starttime));
+				}
+				if (wait > 0) {
+					Thread.sleep(wait);
 				}
 
 			} catch (InterruptedException e) {
