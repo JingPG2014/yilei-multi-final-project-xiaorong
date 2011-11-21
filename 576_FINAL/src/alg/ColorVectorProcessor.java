@@ -3,8 +3,13 @@ package alg;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
-public class ColorVector {
-	public static int[] getColorVector(Image img) {
+public class ColorVectorProcessor extends Algorithm {
+	public ColorVectorProcessor(Algorithm nextAlgorithm, Context context) {
+		super(nextAlgorithm, context);
+		// TODO Auto-generated constructor stub
+	}
+
+	private int[] getColorVector(Image img) {
 		int[] out = new int[24];
 
 		if (img instanceof BufferedImage) {
@@ -44,5 +49,17 @@ public class ColorVector {
 			out += img[i] * img[i];
 		}
 		return Math.sqrt(out);
+	}
+
+	@Override
+	public void preProcess() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void proProcess() {
+		// TODO Auto-generated method stub
+		
 	}
 }
