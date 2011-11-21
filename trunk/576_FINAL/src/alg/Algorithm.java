@@ -28,7 +28,7 @@ public abstract class Algorithm {
 		proProcess();
 	}
 
-	public abstract void preProcess();
+	protected abstract void preProcess();
 
-	public abstract void proProcess();
+	protected abstract void proProcess();
 }
