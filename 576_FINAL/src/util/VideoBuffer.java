@@ -65,12 +65,16 @@ public class VideoBuffer {
 			point++;
 			return outputBuffer[point - 1];
 		} else {
-			while (thread.isAlive()) {
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+			if (thread.isAlive()) {
+				while (thread.isAlive()) {
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
+				bufferPoint += outputBuffer.length;
+				changed = false;
 			}
 
 			point = 1;
