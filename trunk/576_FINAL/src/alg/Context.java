@@ -2,11 +2,11 @@ package alg;
 
 import model.Video;
 
-public class FrameContext {
+public class Context {
 
 	private Video video;
 
-	public FrameContext(Video video) {
+	public Context(Video video) {
 		this.video = video;
 	}
 
