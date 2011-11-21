@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 public class ColorVectorProcessor extends Algorithm {
 	public ColorVectorProcessor(Algorithm nextAlgorithm, Context context) {
 		super(nextAlgorithm, context);
-		// TODO Auto-generated constructor stub
 	}
 
 	private int[] getColorVector(Image img) {
@@ -31,7 +30,7 @@ public class ColorVectorProcessor extends Algorithm {
 		return out;
 	}
 
-	public static double getCosAngle(int[] img1, int[] img2) {
+	private static double getCosAngle(int[] img1, int[] img2) {
 		if (img1.length != img2.length) {
 			return -1;
 		}
@@ -52,14 +51,14 @@ public class ColorVectorProcessor extends Algorithm {
 	}
 
 	@Override
-	public void preProcess() {
+	protected void preProcess() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void proProcess() {
+	protected void proProcess() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
