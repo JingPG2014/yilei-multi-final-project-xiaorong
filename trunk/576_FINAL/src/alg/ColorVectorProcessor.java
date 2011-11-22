@@ -2,10 +2,21 @@ package alg;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
+
+import model.Video;
 
 public class ColorVectorProcessor extends Algorithm {
+
+	private int startPoint;
+	private List<int[]> vectorList;
+
 	public ColorVectorProcessor(Algorithm nextAlgorithm, Context context) {
 		super(nextAlgorithm, context);
+
+		startPoint = 0;
+		vectorList = new ArrayList<int[]>();
 	}
 
 	private int[] getColorVector(Image img) {
@@ -30,7 +41,7 @@ public class ColorVectorProcessor extends Algorithm {
 		return out;
 	}
 
-	private static double getCosAngle(int[] img1, int[] img2) {
+	private double getCosAngle(int[] img1, int[] img2) {
 		if (img1.length != img2.length) {
 			return -1;
 		}
@@ -42,7 +53,7 @@ public class ColorVectorProcessor extends Algorithm {
 		return sum / (getVectorLength(img1) * getVectorLength(img2));
 	}
 
-	private static double getVectorLength(int[] img) {
+	private double getVectorLength(int[] img) {
 		int out = 0;
 		for (int i = 0; i < img.length; i++) {
 			out += img[i] * img[i];
@@ -50,14 +61,23 @@ public class ColorVectorProcessor extends Algorithm {
 		return Math.sqrt(out);
 	}
 
+	private void newShot(int timestamp) {
+		Video video = context.getVideo();
+		video.addShot(startPoint, timestamp);
+
+		vectorList.clear();
+
+		startPoint = timestamp + 1;
+	}
+
 	@Override
-	protected void preProcess() {
+	protected void preProcess(int timestamp) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	protected void proProcess() {
+	protected void proProcess(int timestamp) {
 		// TODO Auto-generated method stub
 
 	}

@@ -55,6 +55,10 @@ public class VideoBuffer {
 		return nextImage();
 	}
 
+	public Image getNoBufferedImage(int timestamp) {
+		return reader.readFrame(timestamp);
+	}
+
 	public Image nextImage() {
 		if (changed && !thread.isAlive()) {
 			bufferPoint += outputBuffer.length;
@@ -103,7 +107,8 @@ public class VideoBuffer {
 	}
 
 	public void close() {
-
+		outputBuffer = null;
+		inputBuffer = null;
 	}
 }
 
