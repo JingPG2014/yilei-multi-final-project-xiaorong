@@ -21,14 +21,14 @@ public abstract class Algorithm {
 	}
 
 	private void process(int timestamp) {
-		preProcess();
+		preProcess(timestamp);
 		if (nextAlgorithm != null) {
 			nextAlgorithm.process(timestamp);
 		}
-		proProcess();
+		proProcess(timestamp);
 	}
 
-	protected abstract void preProcess();
+	protected abstract void preProcess(int timestamp);
 
-	protected abstract void proProcess();
+	protected abstract void proProcess(int timestamp);
 }

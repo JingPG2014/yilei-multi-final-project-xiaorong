@@ -41,7 +41,7 @@ public class VideoReader {
 		}
 	}
 
-	private Image readFrame(int timestamp) {
+	public Image readFrame(int timestamp) {
 		try {
 			if (timestamp >= maxTime) {
 				return null;
