@@ -1,5 +1,7 @@
 import java.io.File;
+import java.io.IOException;
 
+import ctrl.ProjectCenter;
 import ctrl.SummarizeControler;
 
 /**
@@ -40,6 +42,11 @@ public class videoSummarize {
 			System.exit(0);
 		}
 
-		SummarizeControler.getInstance().summarize(video, audio, percentage);
+		try {
+			ProjectCenter.getInstance().init(video, audio);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		SummarizeControler.getInstance().init().summarize(percentage);
 	}
 }

@@ -42,20 +42,46 @@ public class VideoReader {
 	}
 
 	public Image readFrame(int timestamp) {
-		try {
-			if (timestamp >= maxTime) {
-				return null;
+
+		if (timestamp >= maxTime) {
+			return null;
+		}
+
+		byte[] bytes = readByte(timestamp);
+
+		int width = Configure.WIDTH;
+		int height = Configure.HEIGHT;
+
+		BufferedImage img = new BufferedImage(Configure.WIDTH,
+				Configure.HEIGHT, BufferedImage.TYPE_INT_RGB);
+
+		int ind = 0;
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				byte r = bytes[ind];
+				byte g = bytes[ind + height * width];
+				byte b = bytes[ind + height * width * 2];
+
+				int pix = 0xff000000 | ((r & 0xff) << 16) | ((g & 0xff) << 8)
+						| (b & 0xff);
+				img.setRGB(x, y, pix);
+				ind++;
 			}
+		}
 
-			int width = Configure.WIDTH;
-			int height = Configure.HEIGHT;
+		currentTime++;
 
-			int len = Configure.IMAGE_LENGTH;
-			byte[] bytes = new byte[len];
+		return img;
+	}
 
-			BufferedImage img = new BufferedImage(Configure.WIDTH,
-					Configure.HEIGHT, BufferedImage.TYPE_INT_RGB);
+	public byte[] readByte(int timestamp) {
+		if (timestamp >= maxTime) {
+			return null;
+		}
 
+		int len = Configure.IMAGE_LENGTH;
+		byte[] bytes = new byte[len];
+		try {
 			int offset = 0;
 
 			if (currentTime != timestamp) {
@@ -65,28 +91,9 @@ public class VideoReader {
 
 			}
 			is.read(bytes, offset, len);
-
-			int ind = 0;
-			for (int y = 0; y < height; y++) {
-				for (int x = 0; x < width; x++) {
-					byte r = bytes[ind];
-					byte g = bytes[ind + height * width];
-					byte b = bytes[ind + height * width * 2];
-
-					int pix = 0xff000000 | ((r & 0xff) << 16)
-							| ((g & 0xff) << 8) | (b & 0xff);
-					img.setRGB(x, y, pix);
-					ind++;
-				}
-			}
-
-			currentTime++;
-
-			return img;
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.exit(0);
 		}
-		return null;
+		return bytes;
 	}
 }
