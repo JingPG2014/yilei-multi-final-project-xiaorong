@@ -54,29 +54,36 @@ public class SoundPlayer extends Thread {
 				+ (System.currentTimeMillis() - initTime));
 		dataLine.start();
 
-		long beginTime = System.currentTimeMillis();
-		int i = 0;
+		long begintime = System.currentTimeMillis();
+		long starttime = begintime;
+		long endtime = begintime;
 
 		AudioBuffer buffer = AudioBuffer.getInstance();
-		byte[] audioBuffer = buffer.getNextSecond();
+		byte[] audioBuffer = null;
 
-		while (audioBuffer != null) {
-			//System.out.println((System.currentTimeMillis() - beginTime) - 1000 * i);
-			if (((System.currentTimeMillis() - beginTime) - 1000 * i) > -2000) {
-				//System.out.println("Audio: Wait");
-				try {
-					Thread.sleep(50);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			
+		for (int i = 0; i < buffer.getLength(); i++) {
+			starttime = System.currentTimeMillis();
+			// System.out.println(starttime);
+			audioBuffer = buffer.getSound(i * 6);
 			dataLine.write(audioBuffer, 0, audioBuffer.length);
-			audioBuffer = buffer.getNextSecond();
 
-			//System.out.println(i++);
-			//System.out.println("Auido: "
-			//		+ (System.currentTimeMillis() - beginTime));
+			endtime = System.currentTimeMillis();
+
+			try {
+				int wait = 0;
+				if (i % 4 == 0) {
+					wait = (int) (250 - (endtime - begintime - i * 250));
+				} else {
+					wait = (int) (250 - (endtime - starttime));
+				}
+				if (wait > 0) {
+					// System.out.println(wait);
+					Thread.sleep(wait);
+				}
+
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

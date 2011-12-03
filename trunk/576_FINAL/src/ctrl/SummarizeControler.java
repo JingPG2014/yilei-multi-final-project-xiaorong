@@ -41,7 +41,8 @@ public class SummarizeControler {
 	}
 
 	private void buildScenes() {
-		video.addScene(0, 1);
+		video.addScene(0, 0);
+		video.addScene(1, 1);
 	}
 
 	private void valuation() {
