@@ -51,6 +51,10 @@ public class VideoBuffer {
 		System.out.println("Finish!");
 	}
 
+	public VideoReader getReader(){
+		return reader;
+	}
+	
 	public Image getImage(int timestamp) {
 		return reader.readFrame(timestamp);
 	}

@@ -16,7 +16,7 @@ public class Scene {
 
 	public int getEndTime() {
 		if (shots != null && shots.length > 0) {
-			shots[shots.length - 1].getEndTime();
+			return shots[shots.length - 1].getEndTime();
 		}
 		return -1;
 	}
