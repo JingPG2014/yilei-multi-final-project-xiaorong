@@ -1,12 +1,23 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Scene {
-	private List<Shot> shots = null;
+	private Shot[] shots = null;
 
-	public Scene() {
-		shots = new ArrayList<Shot>();
+	public Scene(Shot[] shots) {
+		this.shots = shots;
+	}
+
+	public int getStartTime() {
+		if (shots != null && shots.length > 0) {
+			return shots[0].getStartTime();
+		}
+		return -1;
+	}
+
+	public int getEndTime() {
+		if (shots != null && shots.length > 0) {
+			shots[shots.length - 1].getEndTime();
+		}
+		return -1;
 	}
 }

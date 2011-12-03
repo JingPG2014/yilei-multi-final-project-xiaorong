@@ -52,7 +52,7 @@ public class VideoBuffer {
 	}
 
 	public Image getImage(int timestamp) {
-		return nextImage();
+		return reader.readFrame(timestamp);
 	}
 
 	public Image getNoBufferedImage(int timestamp) {
