@@ -16,12 +16,12 @@ public class VideoWriter {
 
 	private Video video;
 	private VideoReader reader;
-	private AudioBuffer audio;
+	private AudioBuffer audioBuffer;
 
 	public VideoWriter(Video video) {
 		this.video = video;
 		reader = VideoBuffer.getInstance().getReader();
-		audio = AudioBuffer.getInstance();
+		audioBuffer = AudioBuffer.getInstance();
 	}
 
 	public void writeFile() {
@@ -46,17 +46,23 @@ public class VideoWriter {
 
 			fos.close();
 
-			System.out.println(length);
 			byte[] audioOutputBuffer = new byte[length / 6
-					* audio.getFrameSize()];
+					* audioBuffer.getFrameSize()];
+			//System.out.println(audioOutputBuffer.length);
+			int point = 0;
 
 			for (Scene scene : scenes) {
-				for (int i = scene.getStartTime(); i < scene.getEndTime(); i++) {
-					
+				for (int i = scene.getStartTime(); i < scene.getEndTime(); i += 6) {
+					byte[] buffer = audioBuffer.getSound(i);
+					for (int j = 0; j < buffer.length; j++) {
+						audioOutputBuffer[point + j] = buffer[j];
+					}
+					point += buffer.length;
+					//System.out.println(point);
 				}
 			}
 
-			AudioSystem.write(audio.initStream(audioOutputBuffer),
+			AudioSystem.write(audioBuffer.initStream(audioOutputBuffer),
 					AudioFileFormat.Type.WAVE, oaFile);
 
 			System.out.println("Finish");
