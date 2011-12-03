@@ -2,6 +2,8 @@ package ctrl;
 
 import java.io.File;
 
+import util.VideoWriter;
+
 import model.Video;
 
 public class SummarizeControler {
@@ -15,37 +17,43 @@ public class SummarizeControler {
 	}
 
 	private Video video = null;
-	private Video summarizedVideo = null;
 
 	private SummarizeControler() {
 
 	}
 
-	public void init() {
+	public SummarizeControler init() {
+		video = ProjectCenter.getInstance().getVideo();
+		return this;
+	}
+
+	public void summarize(double percentage) {
+		buildShots();
+		buildScenes();
+		valuation();
+		buildNewVideo();
+		output();
+	}
+
+	private void buildShots() {
+		video.addShot(0, 120);
+		video.addShot(1200, 1320);
+	}
+
+	private void buildScenes() {
+		video.addScene(0, 1);
+	}
+
+	private void valuation() {
 
 	}
 
-	public void summarize(File video, File audio, double percentage) {
-		
+	private void buildNewVideo() {
+
 	}
 
-	private void shot(){
-		
-	}
-	
-	private void scene(){
-		
-	}
-	
-	private void valuation(){
-		
-	}
-	
-	private void buildNewVideo(){
-		
-	}
-	
 	private void output() {
-
+		VideoWriter wr = new VideoWriter(video);
+		wr.writeFile();
 	}
 }

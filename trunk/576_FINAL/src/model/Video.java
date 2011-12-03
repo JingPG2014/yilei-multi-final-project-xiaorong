@@ -49,6 +49,25 @@ public class Video {
 		return shot;
 	}
 
+	public ArrayList<Shot> getShots() {
+		return shots;
+	}
+
+	public Scene addScene(int startShot, int endShot) {
+		int shotLength = endShot - startShot + 1;
+		Shot[] aShot = new Shot[shotLength];
+		for (int i = 0; i < shotLength; i++) {
+			aShot[i] = shots.get(startShot + i);
+		}
+		Scene scene = new Scene(aShot);
+		scenes.add(scene);
+		return scene;
+	}
+
+	public LinkedList<Scene> getScenes() {
+		return scenes;
+	}
+
 	public int getLength() {
 		return frames.length;
 	}
