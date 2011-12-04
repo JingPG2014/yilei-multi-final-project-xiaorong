@@ -1,6 +1,7 @@
 package util;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -55,11 +56,11 @@ public class VideoBuffer {
 		return reader;
 	}
 	
-	public Image getImage(int timestamp) {
+	public BufferedImage getImage(int timestamp) {
 		return reader.readFrame(timestamp);
 	}
 
-	public Image getNoBufferedImage(int timestamp) {
+	public BufferedImage getNoBufferedImage(int timestamp) {
 		return reader.readFrame(timestamp);
 	}
 

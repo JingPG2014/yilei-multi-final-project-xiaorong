@@ -9,18 +9,23 @@ import model.Video;
 
 public class ColorVectorProcessor extends Algorithm {
 
+	private static final int precision = 3;
 	private int startPoint;
-	private List<int[]> vectorList;
+	private List<long[]> vectorList;
+	private long[] lastVector;
 
 	public ColorVectorProcessor(Algorithm nextAlgorithm, Context context) {
 		super(nextAlgorithm, context);
 
 		startPoint = 0;
-		vectorList = new ArrayList<int[]>();
+		vectorList = new ArrayList<long[]>();
 	}
 
-	private int[] getColorVector(Image img) {
-		int[] out = new int[24];
+	private long[] getColorVector(Image img) {
+		int pre = 256 >> precision;
+		int bucket = 1 << precision;
+
+		long[] out = new long[3 * (bucket)];
 
 		if (img instanceof BufferedImage) {
 			BufferedImage image = (BufferedImage) img;
@@ -31,9 +36,9 @@ public class ColorVectorProcessor extends Algorithm {
 					int g = (rgb & 0x0000ff00) >> 8;
 					int b = (rgb & 0x000000ff);
 
-					out[r / 32]++;
-					out[g / 32 + 8]++;
-					out[b / 32 + 16]++;
+					out[r / pre]++;
+					out[g / pre + bucket]++;
+					out[b / pre + 2 * bucket]++;
 				}
 			}
 
@@ -41,20 +46,27 @@ public class ColorVectorProcessor extends Algorithm {
 		return out;
 	}
 
-	private double getCosAngle(int[] img1, int[] img2) {
+	private double getCosAngle(long[] img1, long[] img2) {
 		if (img1.length != img2.length) {
 			return -1;
 		}
 
-		int sum = 0;
+		double sum = 0.0;
 		for (int i = 0; i < img1.length; i++) {
 			sum += img1[i] * img2[i];
+			// System.out.print(img1[i] +" " +img2[i]+" ");
+			// System.out.println((long)img1[i] * img2[i]);
 		}
-		return sum / (getVectorLength(img1) * getVectorLength(img2));
+
+		// System.out.println(getVectorLength(img1));
+		// System.out.println(getVectorLength(img2));
+		return Math.acos(1.0 * sum / getVectorLength(img1)
+				/ getVectorLength(img2))
+				/ Math.PI * 180;
 	}
 
-	private double getVectorLength(int[] img) {
-		int out = 0;
+	private double getVectorLength(long[] img) {
+		long out = 0;
 		for (int i = 0; i < img.length; i++) {
 			out += img[i] * img[i];
 		}
@@ -72,13 +84,32 @@ public class ColorVectorProcessor extends Algorithm {
 
 	@Override
 	protected void preProcess(int timestamp) {
-		// TODO Auto-generated method stub
-
+		//if (timestamp < 2400) {
+			Video video = context.getVideo();
+			BufferedImage image = video.getFrame(timestamp).getImage();
+			long[] vector = this.getColorVector(image);
+			if (timestamp != 0) {
+				double angle = getCosAngle(vector, lastVector);
+				if(angle > 5){
+					System.out.println(timestamp);
+					System.out.println(getCosAngle(vector, lastVector));
+				}
+			}
+			lastVector = vector;
+			
+		//}
 	}
 
 	@Override
 	protected void proProcess(int timestamp) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public static void main(String args[]) {
+		int[] a = { 3, 0, 0, 0 };
+		int[] b = { 1, 1, 1, 1 };
+		ColorVectorProcessor cvp = new ColorVectorProcessor(null, null);
+		// System.out.println(cvp.getCosAngle(a, b));
 	}
 }

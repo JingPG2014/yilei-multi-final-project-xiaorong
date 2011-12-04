@@ -2,6 +2,9 @@ package ctrl;
 
 import java.io.File;
 
+import alg.ColorVectorProcessor;
+import alg.Context;
+
 import util.VideoWriter;
 
 import model.Video;
@@ -29,15 +32,16 @@ public class SummarizeControler {
 
 	public void summarize(double percentage) {
 		buildShots();
-		buildScenes();
-		valuation();
-		buildNewVideo();
-		output();
+		// buildScenes();
+		// valuation();
+		// buildNewVideo();
+		// output();
 	}
 
 	private void buildShots() {
-		video.addShot(0, 120);
-		video.addShot(1200, 1320);
+		Context context = new Context(video);
+		ColorVectorProcessor cvp = new ColorVectorProcessor(null, context);
+		cvp.processAll();
 	}
 
 	private void buildScenes() {
