@@ -11,28 +11,30 @@ public class SoundMergeAlgorithm extends Algorithm {
 		super(nextAlgorithm, context);
 	}
 
-	private static long[] transform(byte[] bytes) {
-		long[] sound = new long[bytes.length / 2];
+	private static int[] transform(byte[] bytes) {
+		int[] sound = new int[bytes.length / 2];
 
 		//System.out.println("length: " + sound.length);
 
 		for (int i = 0; i < sound.length; i++) {
 			sound[i] = bytes[2 * i + 1];
-			sound[i] = sound[i] << 8;
-			sound[i] += bytes[2 * i];
 			//System.out.println(sound[i]);
+			//sound[i] = sound[i] << 8;
+			//System.out.println(sound[i]);
+			//sound[i] += bytes[2 * i];
+			//System.out.println("@" + sound[i]);
 		}
 
 		return sound;
 	}
 
-	private static long sumClip(long[] clip) {
+	private static long sumClip(int[] clip) {
 		long sum = 0;
 		for (int i = 0; i < clip.length; i++) {
 			sum += Math.abs(clip[i]);
 		}
 		System.out.println("sum: " + sum);
-		return sum;
+		return sum/clip.length;
 	}
 
 	@Override
@@ -48,15 +50,15 @@ public class SoundMergeAlgorithm extends Algorithm {
 
 	public static void main(String args[]) throws IOException {
 		File v = new File("data/terminator3.rgb");
-		File a = new File("data/terminator_06.wav");
+		File a = new File("data/terminator3.wav");
 
 		ProjectCenter.getInstance().init(v, a);
 
-		for(int i = 50; i < 90; i++){
+		for (int i = 0; i < 24; i++) {
 			System.out.println(i);
-			byte[] testAudio = ProjectCenter.getInstance().getVideo().getFrame(i)
-					.getAudio();
-			long[] clip = transform(testAudio);
+			byte[] testAudio = ProjectCenter.getInstance().getVideo()
+					.getFrame(i).getAudio();
+			int[] clip = transform(testAudio);
 			sumClip(clip);
 		}
 	}
