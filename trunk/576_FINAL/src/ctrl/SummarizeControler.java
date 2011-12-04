@@ -32,21 +32,22 @@ public class SummarizeControler {
 
 	public void summarize(double percentage) {
 		buildShots();
-		// buildScenes();
+		buildScenes();
 		// valuation();
 		// buildNewVideo();
-		// output();
+		output();
 	}
 
 	private void buildShots() {
 		Context context = new Context(video);
 		ColorVectorProcessor cvp = new ColorVectorProcessor(null, context);
-		cvp.processAll();
+		cvp.processAll(2400);
 	}
 
 	private void buildScenes() {
 		video.addScene(0, 0);
-		video.addScene(1, 1);
+		video.addScene(2, 2);
+		video.addScene(4, 4);
 	}
 
 	private void valuation() {

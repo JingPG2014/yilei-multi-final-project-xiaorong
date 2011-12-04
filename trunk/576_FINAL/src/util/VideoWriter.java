@@ -53,7 +53,7 @@ public class VideoWriter {
 
 			for (Scene scene : scenes) {
 				for (int i = scene.getStartTime(); i < scene.getEndTime(); i += 6) {
-					byte[] buffer = audioBuffer.getSound(i);
+					byte[] buffer = audioBuffer.getSoundByQSecond(i);
 					for (int j = 0; j < buffer.length; j++) {
 						audioOutputBuffer[point + j] = buffer[j];
 					}

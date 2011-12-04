@@ -76,7 +76,10 @@ public class ColorVectorProcessor extends Algorithm {
 
 	private void newShot(int timestamp) {
 		Video video = context.getVideo();
-		video.addShot(startPoint, timestamp - 1);
+		if (startPoint % 6 != 0) {
+			startPoint = startPoint / 6 * 6;
+		}
+		video.addShot(startPoint, (timestamp - 1) / 6 * 6);
 
 		vectorList.clear();
 

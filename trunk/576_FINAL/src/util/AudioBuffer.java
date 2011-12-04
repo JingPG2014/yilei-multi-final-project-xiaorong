@@ -35,15 +35,12 @@ public class AudioBuffer {
 	// private int bufferPoint;
 	private int frameSize;
 	private int length;
+	private AudioFormat audioFormat;
 
 	private int point;
 
 	private AudioBuffer() {
 
-	}
-
-	public AudioFormat getAudioFormat() {
-		return audioInputStream.getFormat();
 	}
 
 	public void init(File file, int length) {
@@ -73,7 +70,7 @@ public class AudioBuffer {
 			e.printStackTrace();
 		}
 
-		AudioFormat audioFormat = audioInputStream.getFormat();
+		audioFormat = audioInputStream.getFormat();
 		// System.out.println(audioFormat);
 		frameSize = (int) audioFormat.getFrameRate()
 				* audioFormat.getFrameSize() / Configure.FRAME_RATE * 6;
@@ -100,13 +97,27 @@ public class AudioBuffer {
 
 		System.out.println("Finish!");
 	}
-	
-	public int getFrameSize(){
+
+	public int getFrameSize() {
 		return frameSize;
 	}
-	
-	public byte[] getSound(int timestamp) {
+
+	public AudioFormat getAudioFormat() {
+		return audioFormat;
+	}
+
+	public byte[] getSoundByQSecond(int timestamp) {
 		return outputBuffer.get(timestamp / 6);
+	}
+
+	public byte[] getSound(int timestamp) {
+		byte[] bytes = new byte[frameSize / 6];
+		byte[] buffer = outputBuffer.get(timestamp / 6);
+		int offset = timestamp % 6;
+		for (int i = 0; i < bytes.length; i++) {
+			bytes[i] = buffer[i + offset * frameSize / 6];
+		}
+		return bytes;
 	}
 
 	public int getLength() {
