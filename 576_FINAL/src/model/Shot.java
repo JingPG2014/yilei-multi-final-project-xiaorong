@@ -18,4 +18,7 @@ public class Shot {
 		return endTime;
 	}
 
+	public int getLength() {
+		return endTime - startTime;
+	}
 }

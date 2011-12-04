@@ -20,4 +20,8 @@ public class Scene {
 		}
 		return -1;
 	}
+
+	public int getLength() {
+		return getEndTime() - getStartTime();
+	}
 }
