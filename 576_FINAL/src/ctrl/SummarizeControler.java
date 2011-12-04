@@ -1,12 +1,14 @@
 package ctrl;
 
 import java.io.File;
+import java.util.List;
 
 import alg.ColorVectorProcessor;
 import alg.Context;
 
 import util.VideoWriter;
 
+import model.Scene;
 import model.Video;
 
 public class SummarizeControler {
@@ -54,8 +56,30 @@ public class SummarizeControler {
 
 	}
 
-	private void buildNewVideo() {
+	private void buildNewVideo(double percentage) {
+		int maxSize = (int) (percentage * 1.05 * video.getLength());
 
+		int[][] matrix = new int[video.getScenes().size()][maxSize];
+		List<Scene> scenes = video.getScenes();
+
+		for (int i = 0; i < scenes.size(); i++) {
+			matrix[i][0] = 0;
+		}
+
+		for (int j = 0; j < maxSize; j++) {
+			matrix[0][j] = 0;
+		}
+
+		for (int i = 1; i < scenes.size(); i++) {
+			for (int j = 1; j < maxSize; j++) {
+				matrix[i][j] = matrix[i - 1][j];
+				if (scenes.get(i).getLength() < j) {
+					matrix[i][j] = Math.max(matrix[i][j], matrix[i - 1][j
+							- scenes.get(i).getLength()]
+							+ scenes.get(i).getValue());
+				}
+			}
+		}
 	}
 
 	private void output() {
