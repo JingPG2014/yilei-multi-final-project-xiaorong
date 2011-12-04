@@ -25,8 +25,8 @@ public class VideoWriter {
 	}
 
 	public void writeFile() {
-		File videoFile = video.getVideoFile();
-		File ovFile = new File("Shit" + ".rgb");
+		//File videoFile = video.getVideoFile();
+		File ovFile = new File("Shit.rgb");
 		File oaFile = new File("Shit.wav");
 
 		try {

@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 import util.VideoBuffer;
 
@@ -14,7 +15,7 @@ public class Frame {
 		vb = VideoBuffer.getInstance();
 	}
 
-	public Image getImage() {
+	public BufferedImage getImage() {
 		return vb.getImage(timestamp);
 	}
 	

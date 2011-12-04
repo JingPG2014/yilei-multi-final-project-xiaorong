@@ -7,7 +7,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 import config.Configure;
+import ctrl.ProjectCenter;
 
 public class VideoReader {
 
@@ -17,7 +22,7 @@ public class VideoReader {
 
 	private RandomAccessFile is = null;
 
-	private int currentTime;
+	private long currentTime;
 	private int maxTime;
 
 	public VideoReader(File file) throws IOException {
@@ -41,7 +46,7 @@ public class VideoReader {
 		}
 	}
 
-	public Image readFrame(int timestamp) {
+	public BufferedImage readFrame(int timestamp) {
 
 		if (timestamp >= maxTime) {
 			return null;
@@ -83,11 +88,12 @@ public class VideoReader {
 		byte[] bytes = new byte[len];
 		try {
 			int offset = 0;
+			//int max = Integer.MAX_VALUE / len;
 
 			if (currentTime != timestamp) {
 				currentTime = timestamp;
-
-				is.seek(currentTime * len);
+				long offSeek = currentTime * len;
+				is.seek(offSeek);
 
 			}
 			is.read(bytes, offset, len);
@@ -95,5 +101,16 @@ public class VideoReader {
 			e.printStackTrace();
 		}
 		return bytes;
+	}
+
+	public static void main(String args[]) throws IOException {
+		File v = new File("data/terminator3.rgb");
+		File a = new File("data/terminator3.wav");
+		ProjectCenter.getInstance().init(v, a);
+		JFrame frame = new JFrame();
+		frame.add(new JLabel(new ImageIcon(ProjectCenter.getInstance()
+				.getVideo().getFrame(43107).getImage())));
+		frame.pack();
+		frame.setVisible(true);
 	}
 }
