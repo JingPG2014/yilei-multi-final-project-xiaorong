@@ -109,7 +109,7 @@ public class VideoReader {
 		ProjectCenter.getInstance().init(v, a);
 		JFrame frame = new JFrame();
 		frame.add(new JLabel(new ImageIcon(ProjectCenter.getInstance()
-				.getVideo().getFrame(43107).getImage())));
+				.getVideo().getFrame(6224).getImage())));
 		frame.pack();
 		frame.setVisible(true);
 	}

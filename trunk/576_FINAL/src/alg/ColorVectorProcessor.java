@@ -13,6 +13,7 @@ public class ColorVectorProcessor extends Algorithm {
 	private int startPoint;
 	private List<long[]> vectorList;
 	private long[] lastVector;
+	private double lastAngle;
 
 	public ColorVectorProcessor(Algorithm nextAlgorithm, Context context) {
 		super(nextAlgorithm, context);
@@ -84,20 +85,29 @@ public class ColorVectorProcessor extends Algorithm {
 
 	@Override
 	protected void preProcess(int timestamp) {
-		//if (timestamp < 2400) {
-			Video video = context.getVideo();
-			BufferedImage image = video.getFrame(timestamp).getImage();
-			long[] vector = this.getColorVector(image);
-			if (timestamp != 0) {
-				double angle = getCosAngle(vector, lastVector);
-				if(angle > 5){
+		// if (timestamp < 2400) {
+		if (timestamp % 240 == 0) {
+			System.out.println("Process: " + timestamp);
+		}
+		Video video = context.getVideo();
+		BufferedImage image = video.getFrame(timestamp).getImage();
+		long[] vector = this.getColorVector(image);
+		if (timestamp != 0) {
+			double angle = getCosAngle(vector, lastVector);
+			if (lastAngle != 0.0) {
+				if ((angle / lastAngle < 0.2 || lastAngle / angle < 0.2)
+						&& angle > 1.0) {
 					System.out.println(timestamp);
 					System.out.println(getCosAngle(vector, lastVector));
+					lastAngle = 0.0;
 				}
+			} else {
+				lastAngle = angle;
 			}
-			lastVector = vector;
-			
-		//}
+		}
+		lastVector = vector;
+
+		// }
 	}
 
 	@Override
