@@ -3,6 +3,8 @@ package model;
 public class Scene {
 	private Shot[] shots = null;
 
+	private int value;
+
 	public Scene(Shot[] shots) {
 		this.shots = shots;
 	}
@@ -23,5 +25,9 @@ public class Scene {
 
 	public int getLength() {
 		return getEndTime() - getStartTime();
+	}
+
+	public int getValue() {
+		return value;
 	}
 }
