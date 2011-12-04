@@ -3,6 +3,7 @@ package model;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
+import util.AudioBuffer;
 import util.VideoBuffer;
 
 public class Frame {
@@ -18,8 +19,8 @@ public class Frame {
 	public BufferedImage getImage() {
 		return vb.getImage(timestamp);
 	}
-	
-	public byte[] getAudio(){
-		return null;
+
+	public byte[] getAudio() {
+		return AudioBuffer.getInstance().getSound(timestamp / 6);
 	}
 }

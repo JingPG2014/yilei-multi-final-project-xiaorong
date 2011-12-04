@@ -17,16 +17,7 @@ public class Context {
 		resourceMap = new HashMap<String, Object>();
 	}
 
-	private void initAlgs() {
-		processor = new ColorVectorProcessor(null, this);
-	}
-
 	public Video getVideo() {
 		return video;
 	}
-
-	public void processAll() {
-		processor.processAll();
-	}
-
 }
