@@ -21,6 +21,6 @@ public class Frame {
 	}
 
 	public byte[] getAudio() {
-		return AudioBuffer.getInstance().getSound(timestamp / 6);
+		return AudioBuffer.getInstance().getSound(timestamp);
 	}
 }

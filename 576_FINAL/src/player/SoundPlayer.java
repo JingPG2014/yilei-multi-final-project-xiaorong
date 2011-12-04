@@ -64,7 +64,7 @@ public class SoundPlayer extends Thread {
 		for (int i = 0; i < buffer.getLength(); i++) {
 			starttime = System.currentTimeMillis();
 			// System.out.println(starttime);
-			audioBuffer = buffer.getSound(i * 6);
+			audioBuffer = buffer.getSoundByQSecond(i * 6);
 			dataLine.write(audioBuffer, 0, audioBuffer.length);
 
 			endtime = System.currentTimeMillis();

@@ -14,8 +14,12 @@ public abstract class Algorithm {
 	}
 
 	public void processAll() {
+		processAll(context.getVideo().getLength());
+	}
+
+	public void processAll(int max) {
 		Video video = context.getVideo();
-		for (int i = 0; i < video.getLength(); i++) {
+		for (int i = 0; i < max; i++) {
 			process(i);
 		}
 	}
