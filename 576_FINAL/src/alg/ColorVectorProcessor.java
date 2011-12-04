@@ -76,11 +76,11 @@ public class ColorVectorProcessor extends Algorithm {
 
 	private void newShot(int timestamp) {
 		Video video = context.getVideo();
-		video.addShot(startPoint, timestamp);
+		video.addShot(startPoint, timestamp - 1);
 
 		vectorList.clear();
 
-		startPoint = timestamp + 1;
+		startPoint = timestamp;
 	}
 
 	@Override
@@ -97,8 +97,8 @@ public class ColorVectorProcessor extends Algorithm {
 			if (lastAngle != 0.0) {
 				if ((angle / lastAngle < 0.2 || lastAngle / angle < 0.2)
 						&& angle > 1.0) {
-					System.out.println(timestamp);
-					System.out.println(getCosAngle(vector, lastVector));
+					newShot(timestamp);
+					startPoint = timestamp;
 					lastAngle = 0.0;
 				}
 			} else {
