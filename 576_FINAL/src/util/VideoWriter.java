@@ -25,7 +25,7 @@ public class VideoWriter {
 	}
 
 	public void writeFile() {
-		//File videoFile = video.getVideoFile();
+		// File videoFile = video.getVideoFile();
 		File ovFile = new File("Shit.rgb");
 		File oaFile = new File("Shit.wav");
 
@@ -38,6 +38,7 @@ public class VideoWriter {
 
 			// System.out.print(scenes.size());
 			for (Scene scene : scenes) {
+				System.out.println(scene.getId());
 				for (int i = scene.getStartTime(); i < scene.getEndTime(); i++) {
 					length++;
 					fos.write(reader.readByte(i));
@@ -48,7 +49,7 @@ public class VideoWriter {
 
 			byte[] audioOutputBuffer = new byte[length / 6
 					* audioBuffer.getFrameSize()];
-			//System.out.println(audioOutputBuffer.length);
+			// System.out.println(audioOutputBuffer.length);
 			int point = 0;
 
 			for (Scene scene : scenes) {
@@ -58,7 +59,7 @@ public class VideoWriter {
 						audioOutputBuffer[point + j] = buffer[j];
 					}
 					point += buffer.length;
-					//System.out.println(point);
+					// System.out.println(point);
 				}
 			}
 

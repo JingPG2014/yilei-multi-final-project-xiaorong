@@ -44,7 +44,7 @@ public class Video {
 	}
 
 	public Shot addShot(int startTime, int endTime) {
-		Shot shot = new Shot(startTime, endTime);
+		Shot shot = new Shot(shots.size(), startTime, endTime);
 		shots.add(shot);
 		return shot;
 	}
@@ -59,13 +59,22 @@ public class Video {
 		for (int i = 0; i < shotLength; i++) {
 			aShot[i] = shots.get(startShot + i);
 		}
-		Scene scene = new Scene(aShot);
+		Scene scene = new Scene(scenes.size(), aShot);
 		scenes.add(scene);
 		return scene;
 	}
 
 	public LinkedList<Scene> getScenes() {
 		return scenes;
+	}
+
+	public void reBuildScenes(List<Integer> results) {
+		LinkedList<Scene> newScenes = new LinkedList<Scene>();
+		for (int i = results.size() - 1; i >= 0; i--) {
+			//System.out.println(i);
+			newScenes.add(scenes.get(results.get(i)));
+		}
+		scenes = newScenes;
 	}
 
 	public int getLength() {

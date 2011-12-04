@@ -4,9 +4,15 @@ public class Scene {
 	private Shot[] shots = null;
 
 	private int value;
+	private int id;
 
-	public Scene(Shot[] shots) {
+	public Scene(int id, Shot[] shots) {
 		this.shots = shots;
+		this.id = id;
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public int getStartTime() {
@@ -24,11 +30,14 @@ public class Scene {
 	}
 
 	public int getLength() {
-		return getEndTime() - getStartTime();
+		return getEndTime() - getStartTime() + 1;
 	}
 
 	public void setValue(int value) {
 		this.value = value;
+		if (getLength() < 24) {
+			value = 0;
+		}
 	}
 
 	public int getValue() {
