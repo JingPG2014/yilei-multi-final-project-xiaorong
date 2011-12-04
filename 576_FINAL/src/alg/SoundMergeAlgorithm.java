@@ -14,13 +14,13 @@ public class SoundMergeAlgorithm extends Algorithm {
 	private static long[] transform(byte[] bytes) {
 		long[] sound = new long[bytes.length / 2];
 
-		System.out.println("length: " + sound.length);
+		//System.out.println("length: " + sound.length);
 
 		for (int i = 0; i < sound.length; i++) {
-			sound[i] = bytes[2 * i];
+			sound[i] = bytes[2 * i + 1];
 			sound[i] = sound[i] << 8;
-			sound[i] += bytes[2 * i + 1];
-			System.out.println(sound[i]);
+			sound[i] += bytes[2 * i];
+			//System.out.println(sound[i]);
 		}
 
 		return sound;
@@ -52,9 +52,12 @@ public class SoundMergeAlgorithm extends Algorithm {
 
 		ProjectCenter.getInstance().init(v, a);
 
-		byte[] testAudio = ProjectCenter.getInstance().getVideo().getFrame(83)
-				.getAudio();
-		long[] clip = transform(testAudio);
-		sumClip(clip);
+		for(int i = 50; i < 90; i++){
+			System.out.println(i);
+			byte[] testAudio = ProjectCenter.getInstance().getVideo().getFrame(i)
+					.getAudio();
+			long[] clip = transform(testAudio);
+			sumClip(clip);
+		}
 	}
 }
