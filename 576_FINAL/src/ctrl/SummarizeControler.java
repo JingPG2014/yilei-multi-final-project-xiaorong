@@ -9,6 +9,7 @@ import java.util.Random;
 import alg.ColorVectorProcessor;
 import alg.Context;
 import alg.SoundMergeAlgorithm;
+import alg.SoundValuation;
 
 import util.VideoWriter;
 
@@ -71,10 +72,11 @@ public class SummarizeControler {
 
 	private void valuation() {
 		System.out.print("Start Valuation: ");
-		Random r = new Random();
-		for (Scene s : video.getScenes()) {
-			s.setValue(r.nextInt(100));
-		}
+
+		Context context = new Context(video);
+		SoundValuation sva = new SoundValuation(null, context);
+		sva.processAll();
+
 		System.out.println("Finish!");
 	}
 

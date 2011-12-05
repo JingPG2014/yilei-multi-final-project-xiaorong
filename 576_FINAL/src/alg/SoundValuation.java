@@ -11,11 +11,10 @@ public class SoundValuation extends Algorithm {
 	public void processAll() {
 		processAll(context.getVideo().getScenes().size());
 	}
-
+	
 	@Override
 	protected void preProcess(int timestamp) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
