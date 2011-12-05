@@ -61,23 +61,26 @@ public class SoundPlayer extends Thread {
 		AudioBuffer buffer = AudioBuffer.getInstance();
 		byte[] audioBuffer = null;
 
-		for (int i = 0; i < buffer.getLength(); i++) {
+		for (int i = 0; i < buffer.getLength(); i += 4) {
 			starttime = System.currentTimeMillis();
 			// System.out.println(starttime);
-			audioBuffer = buffer.getSoundByQSecond(i * 6);
+			audioBuffer = buffer.getSoundByQSecond(i);
 			dataLine.write(audioBuffer, 0, audioBuffer.length);
 
 			endtime = System.currentTimeMillis();
 
 			try {
 				int wait = 0;
-				if (i % 6 == 0) {
-					wait = (int) (160 - (endtime - begintime - i * 160));
+				if (i % 24 == 0) {
+					wait = (int) (41 - (endtime - begintime - i / 24 * 1000));
+				} else if (i % 3 == 0) {
+					wait = (int) (41 - (endtime - starttime));
 				} else {
-					wait = (int) (160 - (endtime - starttime));
+					wait = (int) (42 - (endtime - starttime));
 				}
 				if (wait > 0) {
 					// System.out.println(wait);
+					// wait = 0;
 					Thread.sleep(wait);
 				}
 

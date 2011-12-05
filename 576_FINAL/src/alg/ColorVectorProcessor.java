@@ -77,9 +77,9 @@ public class ColorVectorProcessor extends Algorithm {
 	private void newShot(int timestamp, double endAngle) {
 		Video video = context.getVideo();
 		if (startPoint % 4 != 0) {
-			startPoint = startPoint / 4 * 4;
+			startPoint = startPoint / 4 * 4 + 4;
 		}
-		video.addShot(startPoint, (timestamp - 1) / 4 * 4, endAngle);
+		video.addShot(startPoint, timestamp / 4 * 4, endAngle);
 
 		vectorList.clear();
 

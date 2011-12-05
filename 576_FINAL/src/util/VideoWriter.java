@@ -37,8 +37,8 @@ public class VideoWriter {
 			int length = 0;
 
 			// System.out.print(scenes.size());
-			for (Scene scene : scenes) {
-				System.out.println(scene.getId());
+			for (int x = 0; x < video.getList().size(); x++) {
+				Scene scene = video.getScenes().get(video.getList().get(x));
 				for (int i = scene.getStartTime(); i < scene.getEndTime(); i++) {
 					length++;
 					fos.write(reader.readByte(i));
@@ -47,13 +47,14 @@ public class VideoWriter {
 
 			fos.close();
 
-			byte[] audioOutputBuffer = new byte[length / 6
-					* audioBuffer.getFrameSize()];
+			byte[] audioOutputBuffer = new byte[length
+					* audioBuffer.getFrameSize() / 4];
 			// System.out.println(audioOutputBuffer.length);
 			int point = 0;
 
-			for (Scene scene : scenes) {
-				for (int i = scene.getStartTime(); i < scene.getEndTime(); i += 6) {
+			for (int x = 0; x < video.getList().size(); x++) {
+				Scene scene = video.getScenes().get(video.getList().get(x));
+				for (int i = scene.getStartTime(); i < scene.getEndTime(); i += 4) {
 					byte[] buffer = audioBuffer.getSoundByQSecond(i);
 					for (int j = 0; j < buffer.length; j++) {
 						audioOutputBuffer[point + j] = buffer[j];

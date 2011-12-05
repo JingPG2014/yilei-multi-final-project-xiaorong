@@ -93,7 +93,7 @@ public class AudioBuffer {
 
 		// System.out.print(length);
 
-		for (int i = 0; i < length / 6; i++) {
+		for (int i = 0; i < length / 4; i++) {
 			try {
 				byte[] audioBuffer = new byte[frameSize];
 				audioInputStream.read(audioBuffer, 0, audioBuffer.length);
@@ -146,7 +146,7 @@ public class AudioBuffer {
 	}
 
 	public byte[] getSoundByQSecond(int timestamp) {
-		return outputBuffer.get(timestamp / 6);
+		return outputBuffer.get(timestamp / 4);
 	}
 
 	// public byte[] getSound(int timestamp) {
@@ -160,7 +160,7 @@ public class AudioBuffer {
 	// }
 
 	public int getLength() {
-		return outputBuffer.size();
+		return length;
 	}
 
 	public AudioInputStream initStream(byte[] buffer) {
