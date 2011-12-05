@@ -42,7 +42,7 @@ public class SummarizeControler {
 		buildShots();
 		buildScenes();
 		valuation();
-		buildNewVideo(percentage, 9600);
+		buildNewVideo(percentage,video.getLength());
 		output();
 	}
 
@@ -50,7 +50,7 @@ public class SummarizeControler {
 		System.out.println("Start Cut Shots");
 		Context context = new Context(video);
 		ColorVectorProcessor cvp = new ColorVectorProcessor(null, context);
-		cvp.processAll(9600);
+		cvp.processAll();
 
 		for (int i = 0; i < video.getShots().size(); i++) {
 			System.out.println(video.getShots().get(i));

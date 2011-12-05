@@ -43,6 +43,18 @@ public class SoundMergeAlgorithm extends Algorithm {
 		return max;
 	}
 
+	public static int maxAvgFrames(Video video, int start, int end) {
+		int max = 0;
+
+		for (int i = start; i < end; i++) {
+			int subMax = video.getFrame(i).getSoundAvg();
+			if (subMax > max) {
+				max = subMax;
+			}
+		}
+		return max;
+	}
+
 	public boolean soundMerge(int index) {
 		Video video = context.getVideo();
 		List<Shot> shots = video.getShots();
@@ -59,7 +71,8 @@ public class SoundMergeAlgorithm extends Algorithm {
 				video.getLength() - 1));
 
 		return !((lastTwoAVG / lastFrameAVG > 2)
-				|| (futureTwoAVG / lastFrameAVG > 2) || (lastFrameAVG < 1500));
+				|| (futureTwoAVG / lastFrameAVG > 2) || (lastFrameAVG < video
+				.getSoundAvg() / 2));
 	}
 
 	private boolean sizeMerge(int index) {
@@ -70,7 +83,10 @@ public class SoundMergeAlgorithm extends Algorithm {
 	@Override
 	protected void preProcess(int index) {
 		if (index < context.getVideo().getShots().size() - 1) {
-			if (soundMerge(index) || sizeMerge(index)) {
+			if ((soundMerge(index) || sizeMerge(index))
+					&& (context.getVideo().getShots().get(index).getEndTime()
+							- context.getVideo().getShots().get(startShot)
+									.getStartTime() < Configure.MAX_SCENE)) {
 
 			} else {
 				context.getVideo().addScene(startShot, index + 1);
@@ -101,11 +117,13 @@ public class SoundMergeAlgorithm extends Algorithm {
 					+ ProjectCenter.getInstance().getVideo().getFrame(i)
 							.getSoundMax());
 		}
-		
-		System.out.println(ProjectCenter.getInstance().getVideo().getSoundAvg());
-		System.out.println(ProjectCenter.getInstance().getVideo().getSoundMax());
-		
-		//System.out.println(sma.avgFrames(0, 1));
+
+		System.out
+				.println(ProjectCenter.getInstance().getVideo().getSoundAvg());
+		System.out
+				.println(ProjectCenter.getInstance().getVideo().getSoundMax());
+
+		// System.out.println(sma.avgFrames(0, 1));
 	}
 
 	@Override

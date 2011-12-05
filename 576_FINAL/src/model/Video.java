@@ -19,6 +19,7 @@ public class Video {
 
 	private int soundAvg;
 	private int soundMax;
+	private int soundMaxAvg;
 
 	private Frame[] frames;
 	private ArrayList<Shot> shots;
@@ -50,6 +51,9 @@ public class Video {
 			if (frames[i].getSoundMax() > soundMax) {
 				soundMax = frames[i].getSoundMax();
 			}
+			if (frames[i].getSoundAvg() > soundMaxAvg) {
+				soundMaxAvg = frames[i].getSoundMax();
+			}
 		}
 		soundAvg = (int) (sum / length);
 	}
@@ -62,6 +66,10 @@ public class Video {
 		return soundMax;
 	}
 
+	public int getSoundMaxAvg() {
+		return soundMaxAvg;
+	}
+	
 	public Frame getFrame(int i) {
 		if (i < 0 || i >= frames.length) {
 			return null;
