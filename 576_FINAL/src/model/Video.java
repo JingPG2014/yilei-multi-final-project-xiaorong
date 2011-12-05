@@ -24,6 +24,9 @@ public class Video {
 	private int soundMax;
 	private int soundMaxAvg;
 
+	private int motionAvg;
+	private int motionMax;
+
 	private Frame[] frames;
 	private ArrayList<Shot> shots;
 	private LinkedList<Scene> scenes;
@@ -68,6 +71,19 @@ public class Video {
 		soundAvg = (int) (sum / length);
 	}
 
+	public void calMotion() {
+		motionMax = 0;
+		long sum = 0;
+		for (int i = 0; i < frames.length; i++) {
+			sum += frames[i].getMotionValue();
+			if (frames[i].getMotionValue() > motionMax) {
+				motionMax = frames[i].getMotionValue();
+			}
+		}
+
+		motionAvg = (int) (sum / getLength());
+	}
+
 	public int getSoundAvg() {
 		return soundAvg;
 	}
@@ -78,6 +94,14 @@ public class Video {
 
 	public int getSoundMaxAvg() {
 		return soundMaxAvg;
+	}
+
+	public int getMotionAvg() {
+		return motionAvg;
+	}
+
+	public int getMotionMax() {
+		return motionMax;
 	}
 
 	public Frame getFrame(int i) {
