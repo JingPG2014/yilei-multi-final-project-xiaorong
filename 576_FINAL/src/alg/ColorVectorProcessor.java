@@ -105,7 +105,7 @@ public class ColorVectorProcessor extends Algorithm {
 			if (lastAngle != 0.0) {
 				if ((angle / lastAngle < 0.1 || lastAngle / angle < 0.1)
 						&& (angle > 3.0 || lastAngle > 3.0)
-						&& (timestamp - startPoint) > 24) {
+						&& (timestamp - startPoint) >= 24) {
 					// System.out.println(timestamp);
 					// System.out.println(angle);
 					// System.out.println(lastAngle);

@@ -88,7 +88,7 @@ public class AudioBuffer {
 		frameSize = (int) audioFormat.getFrameRate()
 				* audioFormat.getFrameSize() * 4 / Configure.FRAME_RATE;
 
-		System.out.println(frameSize);
+		// System.out.println(frameSize);
 		// int readBytes;
 
 		// System.out.print(length);
@@ -104,7 +104,7 @@ public class AudioBuffer {
 		}
 
 		byte[] totalBuffer = new byte[(int) (audioFormat.getFrameRate()
-				* length * audioFormat.getFrameSize() / Configure.FRAME_RATE)];
+				* length * audioFormat.getFrameSize() / Configure.FRAME_RATE) + 24];
 
 		// System.out.println(length);
 

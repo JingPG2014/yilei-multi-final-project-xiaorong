@@ -2,6 +2,13 @@ package alg;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+
+import model.Scene;
+import model.Shot;
+import model.Video;
+
+import config.Configure;
 
 import util.AudioBuffer;
 
@@ -9,11 +16,13 @@ import ctrl.ProjectCenter;
 
 public class SoundMergeAlgorithm extends Algorithm {
 
+	private int startShot;
+
 	public SoundMergeAlgorithm(Algorithm nextAlgorithm, Context context) {
 		super(nextAlgorithm, context);
 	}
 
-	private static long sumClip(int[] clip) {
+	private static long AvgClip(int[] clip) {
 		long sum = 0;
 		for (int i = 0; i < clip.length; i++) {
 			sum += Math.abs(clip[i]);
@@ -29,13 +38,62 @@ public class SoundMergeAlgorithm extends Algorithm {
 				max = Math.abs(clip[i]);
 			}
 		}
-		
+
 		return max;
 	}
 
+	private long avgFrames(int start, int end) {
+		long sum = 0;
+		for (int i = start; i < end; i++) {
+			sum += AvgClip(context.getVideo().getFrame(i).getAudio());
+		}
+		return sum / (end - start);
+	}
+
+	private long maxFrames(int start, int end) {
+		long max = 0;
+		for (int i = start; i < end; i++) {
+			long subMax = getMax(context.getVideo().getFrame(i).getAudio());
+			if (subMax > max) {
+				max = subMax;
+			}
+		}
+		return max;
+	}
+
+	private boolean soundMerge(int index) {
+		Video video = context.getVideo();
+		List<Shot> shots = video.getShots();
+
+		long lastTwoAVG = avgFrames(
+				Math.max(0, shots.get(index).getEndTime() - 48),
+				shots.get(index).getEndTime());
+		long futureTwoAVG = avgFrames(shots.get(index).getEndTime(), Math.min(
+				shots.get(index).getEndTime() + 48, video.getLength() - 1));
+
+		long lastFrameAVG = avgFrames(Math.max(0,
+				shots.get(index).getEndTime() - 6), Math.min(shots.get(index)
+				.getEndTime() + 6, video.getLength() - 1));
+
+		return !((lastTwoAVG / lastFrameAVG > 2)
+				|| (futureTwoAVG / lastFrameAVG > 2) || (lastFrameAVG < 2000));
+	}
+
+	private boolean sizeMerge(int index) {
+		return context.getVideo().getShots().get(index).getEndTime()
+				- context.getVideo().getShots().get(startShot).getStartTime() < Configure.MIN_SCENE;
+	}
+
 	@Override
-	protected void preProcess(int timestamp) {
-		
+	protected void preProcess(int index) {
+		if (index < context.getVideo().getShots().size() - 1) {
+			if (soundMerge(index) || sizeMerge(index)) {
+
+			} else {
+				context.getVideo().addScene(startShot, index + 1);
+				startShot = index + 1;
+			}
+		}
 	}
 
 	@Override
@@ -49,17 +107,17 @@ public class SoundMergeAlgorithm extends Algorithm {
 
 		ProjectCenter.getInstance().init(v, a);
 
-		for (int i = 0; i < 240; i ++) {
-			System.out.println(i); 
+		for (int i = 0; i < 240; i++) {
+			System.out.println(i);
 			int[] clip = AudioBuffer.getInstance().getSound(i);
-			System.out.println("Avg: " + sumClip(clip));
+			System.out.println("Avg: " + AvgClip(clip));
 			System.out.println("Max: " + getMax(clip));
 		}
 	}
 
 	@Override
 	public void processAll() {
-		processAll();
+		processAll(context.getVideo().getShots().size());
 	}
 
 }

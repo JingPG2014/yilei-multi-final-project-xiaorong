@@ -10,5 +10,9 @@ public class Configure {
 
 	public static final int BUFFER_SIZE = 0;
 
-	//public static final int EXTERNAL_BUFFER_SIZE = 441000;
+	public static final int MIN_SHOT = FRAME_RATE;
+
+	public static final int MIN_SCENE = 5 * FRAME_RATE;
+
+	// public static final int EXTERNAL_BUFFER_SIZE = 441000;
 }
