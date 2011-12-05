@@ -41,9 +41,9 @@ public class Scene {
 
 	public int getBalancedValue() {
 		if (getLength() < Configure.MIN_SCENE) {
-			return value * getLength() / Configure.MIN_SCENE;
+			return value * getLength() / 240;
 		} else if (getLength() > Configure.MAX_SCENE) {
-			return value * Configure.MAX_SCENE / Configure.MAX_SCENE;
+			return value * 240 / getLength();
 		} else {
 			return value;
 		}
@@ -55,6 +55,7 @@ public class Scene {
 
 	public String toString() {
 		return "Scene: " + id + " start: " + getStartTime() + " end: "
-				+ getEndTime() + " length " + getLength() + " Score: " + getBalancedValue();
+				+ getEndTime() + " length " + getLength() + " Score: "
+				+ getBalancedValue();
 	}
 }

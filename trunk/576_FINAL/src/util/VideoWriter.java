@@ -25,9 +25,11 @@ public class VideoWriter {
 	}
 
 	public void writeFile() {
-		// File videoFile = video.getVideoFile();
-		File ovFile = new File("Shit.rgb");
-		File oaFile = new File("Shit.wav");
+		File videoFile = video.getVideoFile();
+		File audioFile = video.getAudioFile();
+		
+		File ovFile = new File(videoFile.getPath().replaceFirst(".rgb", "_output.rgb"));
+		File oaFile = new File(audioFile.getPath().replaceFirst(".rgb", "_output.rgb"));
 
 		try {
 			System.out.print("Start WriteFile: ");
