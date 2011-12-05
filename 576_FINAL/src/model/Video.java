@@ -43,8 +43,8 @@ public class Video {
 		return frames[i];
 	}
 
-	public Shot addShot(int startTime, int endTime) {
-		Shot shot = new Shot(shots.size(), startTime, endTime);
+	public Shot addShot(int startTime, int endTime, double endAngle) {
+		Shot shot = new Shot(shots.size(), startTime, endTime, endAngle);
 		shots.add(shot);
 		return shot;
 	}
@@ -71,7 +71,7 @@ public class Video {
 	public void reBuildScenes(List<Integer> results) {
 		LinkedList<Scene> newScenes = new LinkedList<Scene>();
 		for (int i = results.size() - 1; i >= 0; i--) {
-			//System.out.println(i);
+			// System.out.println(i);
 			newScenes.add(scenes.get(results.get(i)));
 		}
 		scenes = newScenes;

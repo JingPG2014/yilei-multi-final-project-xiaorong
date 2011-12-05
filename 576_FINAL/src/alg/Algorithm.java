@@ -13,23 +13,20 @@ public abstract class Algorithm {
 		this.context = context;
 	}
 
-	public void processAll() {
-		processAll(context.getVideo().getLength());
-	}
+	public abstract void processAll();
 
 	public void processAll(int max) {
-		Video video = context.getVideo();
 		for (int i = 0; i < max; i++) {
 			process(i);
 		}
 	}
 
-	private void process(int timestamp) {
-		preProcess(timestamp);
+	private void process(int index) {
+		preProcess(index);
 		if (nextAlgorithm != null) {
-			nextAlgorithm.process(timestamp);
+			nextAlgorithm.process(index);
 		}
-		proProcess(timestamp);
+		proProcess(index);
 	}
 
 	protected abstract void preProcess(int timestamp);

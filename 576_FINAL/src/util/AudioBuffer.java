@@ -25,7 +25,20 @@ public class AudioBuffer {
 		return ab;
 	}
 
+	private static int[] transform(byte[] bytes) {
+		int[] sound = new int[bytes.length / 2];
+
+		for (int i = 0; i < sound.length; i++) {
+			sound[i] = bytes[2 * i + 1];
+			sound[i] = sound[i] << 8;
+			sound[i] = Math.abs(sound[i] | (0x00ff & bytes[2 * i]));
+		}
+
+		return sound;
+	}
+
 	private List<byte[]> outputBuffer;
+	private int[] intBuffer;
 	// private List<byte[]> inputBuffer;
 
 	private boolean changed;
@@ -73,8 +86,9 @@ public class AudioBuffer {
 		audioFormat = audioInputStream.getFormat();
 		// System.out.println(audioFormat);
 		frameSize = (int) audioFormat.getFrameRate()
-				* audioFormat.getFrameSize() / Configure.FRAME_RATE * 6;
+				* audioFormat.getFrameSize() * 4 / Configure.FRAME_RATE;
 
+		System.out.println(frameSize);
 		// int readBytes;
 
 		// System.out.print(length);
@@ -89,11 +103,23 @@ public class AudioBuffer {
 			}
 		}
 
-		// System.out.println(outputBuffer.size());
+		byte[] totalBuffer = new byte[(int) (audioFormat.getFrameRate()
+				* length * audioFormat.getFrameSize() / Configure.FRAME_RATE)];
 
-		// bufferPoint += inputBuffer.size() * frameSize;
+		// System.out.println(length);
 
-		// loadBuffer();
+		for (int i = 0; i < outputBuffer.size(); i++) {
+			byte[] aBuffer = outputBuffer.get(i);
+			// System.out.println(outputBuffer.size() + " " + aBuffer.length +
+			// " "
+			// + i);
+			for (int j = 0; j < aBuffer.length; j++) {
+
+				totalBuffer[i * aBuffer.length + j] = aBuffer[j];
+			}
+		}
+
+		intBuffer = transform(totalBuffer);
 
 		System.out.println("Finish!");
 	}
@@ -106,19 +132,32 @@ public class AudioBuffer {
 		return audioFormat;
 	}
 
+	public int[] getSound(int timestamp) {
+
+		int len = frameSize / 12;
+		int[] array = new int[len];
+		int offset = (int) (((long) frameSize) * timestamp / 12);
+
+		for (int i = 0; i < len; i++) {
+			array[i] = intBuffer[i + offset];
+		}
+
+		return array;
+	}
+
 	public byte[] getSoundByQSecond(int timestamp) {
 		return outputBuffer.get(timestamp / 6);
 	}
 
-	public byte[] getSound(int timestamp) {
-		byte[] bytes = new byte[frameSize / 6];
-		byte[] buffer = outputBuffer.get(timestamp / 6);
-		int offset = timestamp % 6;
-		for (int i = 0; i < bytes.length; i++) {
-			bytes[i] = buffer[i + offset * frameSize / 6];
-		}
-		return bytes;
-	}
+	// public byte[] getSound(int timestamp) {
+	// // byte[] bytes = new byte[frameSize / 6];
+	// byte[] buffer = outputBuffer.get(timestamp / 6);
+	// int offset = timestamp % 6;
+	// for (int i = 0; i < bytes.length; i++) {
+	// bytes[i] = buffer[i + offset * frameSize / 6];
+	// }
+	// return bytes;
+	// }
 
 	public int getLength() {
 		return outputBuffer.size();

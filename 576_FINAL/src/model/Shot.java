@@ -4,12 +4,14 @@ public class Shot {
 	private int startTime;
 	private int endTime;
 	private int id;
+	private double endAngle;
 
-	public Shot(int id, int startTime, int endTime) {
+	public Shot(int id, int startTime, int endTime, double endAngle) {
 		super();
 		this.id = id;
 		this.startTime = startTime;
 		this.endTime = endTime;
+		this.endAngle = endAngle;
 	}
 
 	public int getStartTime() {
@@ -21,7 +23,11 @@ public class Shot {
 	}
 
 	public int getLength() {
-		return endTime - startTime + 1;
+		return endTime - startTime;
+	}
+
+	public double getEndAngle() {
+		return endAngle;
 	}
 
 	public String toString() {

@@ -8,10 +8,12 @@ import java.util.Random;
 
 import alg.ColorVectorProcessor;
 import alg.Context;
+import alg.SoundMergeAlgorithm;
 
 import util.VideoWriter;
 
 import model.Scene;
+import model.Shot;
 import model.Video;
 
 public class SummarizeControler {
@@ -39,7 +41,7 @@ public class SummarizeControler {
 		buildShots();
 		buildScenes();
 		valuation();
-		buildNewVideo(percentage, 4800);
+		buildNewVideo(percentage, video.getLength());
 		output();
 	}
 
@@ -47,8 +49,12 @@ public class SummarizeControler {
 		System.out.println("Start Cut Shots");
 		Context context = new Context(video);
 		ColorVectorProcessor cvp = new ColorVectorProcessor(null, context);
-		cvp.processAll(4800);
-
+		cvp.processAll();
+		
+		for(Shot s : video.getShots()){
+			System.out.println(s.getLength());
+		}
+		
 		//for (int i = 0; i < video.getShots().size(); i++) {
 		//	System.out.println(video.getShots().get(i));
 		//}
@@ -57,9 +63,13 @@ public class SummarizeControler {
 
 	private void buildScenes() {
 		System.out.print("Start Cut Scene: ");
-		for (int i = 0; i < video.getShots().size(); i++) {
-			video.addScene(i, i);
-		}
+		Context context = new Context(video);
+		SoundMergeAlgorithm sma = new SoundMergeAlgorithm(null, context);
+		sma.processAll();
+		
+		//for (int i = 0; i < video.getShots().size(); i++) {
+		//	video.addScene(i, i);
+		//}
 		System.out.println("Finish!");
 	}
 

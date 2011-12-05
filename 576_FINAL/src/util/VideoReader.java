@@ -104,12 +104,12 @@ public class VideoReader {
 	}
 
 	public static void main(String args[]) throws IOException {
-		File v = new File("data/terminator3.rgb");
+		File v = new File("data/sports1.rgb");
 		File a = new File("data/terminator3.wav");
 		ProjectCenter.getInstance().init(v, a);
 		JFrame frame = new JFrame();
 		frame.add(new JLabel(new ImageIcon(ProjectCenter.getInstance()
-				.getVideo().getFrame(6224).getImage())));
+				.getVideo().getFrame(1635).getImage())));
 		frame.pack();
 		frame.setVisible(true);
 	}

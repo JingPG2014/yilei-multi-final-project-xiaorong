@@ -71,10 +71,10 @@ public class SoundPlayer extends Thread {
 
 			try {
 				int wait = 0;
-				if (i % 4 == 0) {
-					wait = (int) (250 - (endtime - begintime - i * 250));
+				if (i % 6 == 0) {
+					wait = (int) (160 - (endtime - begintime - i * 160));
 				} else {
-					wait = (int) (250 - (endtime - starttime));
+					wait = (int) (160 - (endtime - starttime));
 				}
 				if (wait > 0) {
 					// System.out.println(wait);
