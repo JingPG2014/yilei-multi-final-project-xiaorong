@@ -43,4 +43,9 @@ public class Scene {
 	public int getValue() {
 		return value;
 	}
+
+	public String toString() {
+		return "Scene: " + id + " start: " + getStartTime() + " end: "
+				+ getEndTime() + " length " + getLength();
+	}
 }
