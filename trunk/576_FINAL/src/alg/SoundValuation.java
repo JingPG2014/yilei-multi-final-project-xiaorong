@@ -22,11 +22,19 @@ public class SoundValuation extends Algorithm {
 		Video video = context.getVideo();
 
 		Scene scene = context.getVideo().getScenes().get(index);
-		System.out.println(SoundMergeAlgorithm.avgFrames(video, 0, 1));
-		int avgScore = Math.min(90, (int) SoundMergeAlgorithm.avgFrames(video,
-				scene.getStartTime(), scene.getEndTime()) / (video.getSoundAvg() * 2));
-		int maxScore = Math.min(10, (int) SoundMergeAlgorithm.maxFrames(video,
-				scene.getStartTime(), scene.getEndTime()) / (video.getSoundAvg() ));
+		//System.out.println(SoundMergeAlgorithm.avgFrames(video, 0, 1));
+		int avgScore = Math.min(
+				90,
+				(int) SoundMergeAlgorithm.avgFrames(video,
+						scene.getStartTime(), scene.getEndTime())
+						* 90
+						/ (video.getSoundAvg() * 2));
+		int maxScore = Math.min(
+				10,
+				(int) SoundMergeAlgorithm.maxFrames(video,
+						scene.getStartTime(), scene.getEndTime())
+						* 10
+						/ video.getSoundMax());
 
 		System.out.println(index + " " + avgScore + " " + maxScore);
 

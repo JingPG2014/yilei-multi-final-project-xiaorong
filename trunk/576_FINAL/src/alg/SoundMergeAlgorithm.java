@@ -101,7 +101,10 @@ public class SoundMergeAlgorithm extends Algorithm {
 					+ ProjectCenter.getInstance().getVideo().getFrame(i)
 							.getSoundMax());
 		}
-
+		
+		System.out.println(ProjectCenter.getInstance().getVideo().getSoundAvg());
+		System.out.println(ProjectCenter.getInstance().getVideo().getSoundMax());
+		
 		//System.out.println(sma.avgFrames(0, 1));
 	}
 
