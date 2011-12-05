@@ -1,10 +1,13 @@
 package model;
 
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import config.Configure;
 
 import alg.SoundMergeAlgorithm;
 
@@ -28,6 +31,7 @@ public class Video {
 	private List<Integer> results;
 
 	public Video(File video, File audio) throws IOException {
+
 		videoFile = video;
 		audioFile = audio;
 
@@ -40,6 +44,12 @@ public class Video {
 
 		shots = new ArrayList<Shot>();
 		scenes = new LinkedList<Scene>();
+
+		System.out.println("Video File Loaded: " + video.getPath());
+		System.out.println("Audio File Loaded: " + audio.getPath());
+		System.out.println("Video Length: " + length + " frames");
+		System.out.println("Video Time: " + length / Configure.FRAME_RATE / 60
+				+ " min " + length / Configure.FRAME_RATE % 60 + " second");
 
 		VideoBuffer.getInstance().init(video, 0);
 		AudioBuffer.getInstance().init(audio, length, frames);
@@ -69,7 +79,7 @@ public class Video {
 	public int getSoundMaxAvg() {
 		return soundMaxAvg;
 	}
-	
+
 	public Frame getFrame(int i) {
 		if (i < 0 || i >= frames.length) {
 			return null;
@@ -144,6 +154,10 @@ public class Video {
 
 	public String getAudioPath() {
 		return audioFile.getPath();
+	}
+
+	public Image nextImage() {
+		return VideoBuffer.getInstance().nextImage();
 	}
 
 }

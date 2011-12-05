@@ -31,7 +31,7 @@ public class VideoPlayer extends Thread {
 
 			starttime = System.currentTimeMillis();
 			// System.out.println(starttime);
-			playerPane.fresh(video.getFrame(i).getImage());
+			playerPane.fresh(video.nextImage());
 			endtime = System.currentTimeMillis();
 			// if (i % 24 == 0) {
 			// System.out.println(endtime - begintime);
