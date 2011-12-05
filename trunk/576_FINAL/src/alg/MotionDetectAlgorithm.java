@@ -60,8 +60,8 @@ public class MotionDetectAlgorithm extends Algorithm {
 					.getFrame(timestamp)
 					.setMotionValue(
 							motion * 100 / Configure.WIDTH / Configure.HEIGHT);
-			System.out.println(motion * 100 / Configure.WIDTH
-					/ Configure.HEIGHT);
+			//System.out.println(motion * 100 / Configure.WIDTH
+			//		/ Configure.HEIGHT);
 		}
 
 		lGray = cGray;
@@ -74,7 +74,7 @@ public class MotionDetectAlgorithm extends Algorithm {
 	}
 
 	public static void main(String args[]) throws IOException {
-		File v = new File("data/terminator3.rgb");
+		File v = new File("data/terminator.rgb");
 		File a = new File("data/sports1.wav");
 
 		ProjectCenter.getInstance().init(v, a);
@@ -83,11 +83,10 @@ public class MotionDetectAlgorithm extends Algorithm {
 
 		// for (int i = 24; i < 26; i++) {
 
-		mdv.processAll();
+		mdv.processAll(20);
 
 		Video video = ProjectCenter.getInstance().getVideo();
 
-		
 		// }
 	}
 }

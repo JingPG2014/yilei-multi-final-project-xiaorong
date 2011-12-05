@@ -31,7 +31,7 @@ public class SoundValuation extends Algorithm {
 						/ (video.getSoundAvg() * 2));
 		int maxAvgScore = Math.min(
 				30,
-				(int) SoundMergeAlgorithm.avgFrames(video,
+				(int) SoundMergeAlgorithm.maxAvgFrames(video,
 						scene.getStartTime(), scene.getEndTime())
 						* 30
 						/ video.getSoundAvg());

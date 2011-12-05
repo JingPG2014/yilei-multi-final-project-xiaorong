@@ -31,6 +31,8 @@ public class SummarizeControler {
 
 	private Video video = null;
 
+	private int parameter = 0;
+
 	private SummarizeControler() {
 
 	}
@@ -41,10 +43,11 @@ public class SummarizeControler {
 	}
 
 	public void summarize(double percentage) {
+		parameter = video.getLength();
 		buildShots();
 		buildScenes();
 		valuation();
-		buildNewVideo(percentage, video.getLength());
+		buildNewVideo(percentage, parameter);
 		output();
 	}
 
@@ -53,7 +56,9 @@ public class SummarizeControler {
 		Context context = new Context(video);
 		MotionDetectAlgorithm mda = new MotionDetectAlgorithm(null, context);
 		ColorVectorProcessor cvp = new ColorVectorProcessor(mda, context);
-		cvp.processAll();
+		cvp.processAll(parameter);
+
+		video.calMotion(parameter);
 
 		for (int i = 0; i < video.getShots().size(); i++) {
 			System.out.println(video.getShots().get(i));
@@ -62,30 +67,29 @@ public class SummarizeControler {
 	}
 
 	private void buildScenes() {
-		System.out.print("Start Cut Scene: ");
+		System.out.println("Start Cut Scene: ");
 		Context context = new Context(video);
 		SoundMergeAlgorithm sma = new SoundMergeAlgorithm(null, context);
 		sma.processAll();
 
+		System.out.println("Finish!");
+	}
+
+	private void valuation() {
+		System.out.println("Start Valuation: ");
+
+		Context context = new Context(video);
+		MotionValuation mv = new MotionValuation(null, context);
+		SoundValuation sva = new SoundValuation(mv, context);
+		sva.processAll();
 		for (Scene scene : video.getScenes()) {
 			System.out.println(scene);
 		}
 		System.out.println("Finish!");
 	}
 
-	private void valuation() {
-		System.out.print("Start Valuation: ");
-
-		Context context = new Context(video);
-		MotionValuation mv = new MotionValuation(null, context);
-		SoundValuation sva = new SoundValuation(mv, context);
-		sva.processAll();
-
-		System.out.println("Finish!");
-	}
-
 	private void buildNewVideo(double percentage, int length) {
-		System.out.print("Start Rebuild: ");
+		System.out.println("Start Rebuild: ");
 		int maxSize = (int) (percentage * 1.05 * length) / 6 * 6;
 		// int maxSize = 9;
 
@@ -108,7 +112,7 @@ public class SummarizeControler {
 				if (scenes.get(i - 1).getLength() <= j) {
 					matrix[i][j] = Math.max(matrix[i][j], matrix[i - 1][j
 							- scenes.get(i - 1).getLength()]
-							+ scenes.get(i - 1).getValue());
+							+ scenes.get(i - 1).getBalancedValue());
 				}
 			}
 		}
@@ -124,7 +128,7 @@ public class SummarizeControler {
 			if (maxSize >= scenes.get(i - 1).getLength()
 					&& matrix[i][maxSize] == matrix[i - 1][maxSize
 							- scenes.get(i - 1).getLength()]
-							+ scenes.get(i - 1).getValue()) {
+							+ scenes.get(i - 1).getBalancedValue()) {
 				tArray.add(i - 1);
 				// System.out.print((i - 1) + " ");
 				maxSize -= scenes.get(i - 1).getLength();

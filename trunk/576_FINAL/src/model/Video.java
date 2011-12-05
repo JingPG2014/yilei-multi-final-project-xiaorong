@@ -71,17 +71,21 @@ public class Video {
 		soundAvg = (int) (sum / length);
 	}
 
-	public void calMotion() {
+	public void calMotion(int length) {
 		motionMax = 0;
 		long sum = 0;
-		for (int i = 0; i < frames.length; i++) {
+		for (int i = 0; i < length; i++) {
+			System.out.println("Motion: " + frames[i].getMotionValue());
 			sum += frames[i].getMotionValue();
 			if (frames[i].getMotionValue() > motionMax) {
 				motionMax = frames[i].getMotionValue();
 			}
 		}
 
-		motionAvg = (int) (sum / getLength());
+		motionAvg = (int) (sum / length);
+
+		System.out.println("MotionAvg: " + motionAvg);
+		System.out.println("MotionMax: " + motionMax);
 	}
 
 	public int getSoundAvg() {

@@ -26,6 +26,9 @@ public class VideoBuffer {
 
 	private boolean changed;
 
+	private BufferedImage bufferedImage;
+	private int bufferedStamp;
+
 	private Image[] outputBuffer;
 	private Image[] inputBuffer;
 
@@ -52,12 +55,17 @@ public class VideoBuffer {
 		System.out.println("Finish!");
 	}
 
-	public VideoReader getReader(){
+	public VideoReader getReader() {
 		return reader;
 	}
-	
+
 	public BufferedImage getImage(int timestamp) {
-		return reader.readFrame(timestamp);
+		if (timestamp != bufferedStamp || bufferedImage == null) {
+			bufferedImage = reader.readFrame(timestamp);
+		}
+		bufferedStamp = timestamp;
+
+		return bufferedImage;
 	}
 
 	public BufferedImage getNoBufferedImage(int timestamp) {
