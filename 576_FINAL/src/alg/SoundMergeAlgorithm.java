@@ -83,10 +83,14 @@ public class SoundMergeAlgorithm extends Algorithm {
 	@Override
 	protected void preProcess(int index) {
 		if (index < context.getVideo().getShots().size() - 1) {
-			if ((soundMerge(index) || sizeMerge(index))
-					&& (context.getVideo().getShots().get(index).getEndTime()
-							- context.getVideo().getShots().get(startShot)
-									.getStartTime() < Configure.MAX_SCENE)) {
+			if ((context.getVideo().getShots().get(index).getEndTime()
+					- context.getVideo().getShots().get(startShot)
+							.getStartTime() > Configure.MAX_SCENE)
+					&& index != startShot) {
+				context.getVideo().addScene(startShot, index);
+				startShot = index;
+
+			} else if ((soundMerge(index) || sizeMerge(index))) {
 
 			} else {
 				context.getVideo().addScene(startShot, index + 1);

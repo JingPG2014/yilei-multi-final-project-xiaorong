@@ -1,5 +1,6 @@
 package alg;
 
+import model.Scene;
 import model.Video;
 
 public class MotionValuation extends Algorithm {
@@ -24,7 +25,7 @@ public class MotionValuation extends Algorithm {
 		}
 		return max;
 	}
-	
+
 	public MotionValuation(Algorithm nextAlgorithm, Context context) {
 		super(nextAlgorithm, context);
 		// TODO Auto-generated constructor stub
@@ -36,8 +37,25 @@ public class MotionValuation extends Algorithm {
 	}
 
 	@Override
-	protected void preProcess(int timestamp) {
-		
+	protected void preProcess(int index) {
+		Video video = context.getVideo();
+		Scene scene = context.getVideo().getScenes().get(index);
+
+		int avgScore = Math
+				.min(90,
+						(int) avgFrames(video, scene.getStartTime(),
+								scene.getEndTime())
+								* 90 / (video.getMotionAvg() * 2));
+		int maxScore = Math
+				.min(10,
+						(int) maxFrames(video, scene.getStartTime(),
+								scene.getEndTime())
+								* 10 / video.getMotionMax());
+
+		// System.out.println(index + " " + (maxAvgScore + avgScore +
+		// maxScore));
+
+		scene.setValue(scene.getValue() + avgScore + maxScore);
 	}
 
 	@Override

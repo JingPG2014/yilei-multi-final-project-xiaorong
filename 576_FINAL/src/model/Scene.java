@@ -1,5 +1,7 @@
 package model;
 
+import config.Configure;
+
 public class Scene {
 	private Shot[] shots = null;
 
@@ -30,13 +32,20 @@ public class Scene {
 	}
 
 	public int getLength() {
-		return getEndTime() - getStartTime() + 1;
+		return getEndTime() - getStartTime();
 	}
 
 	public void setValue(int value) {
 		this.value = value;
-		if (getLength() < 24) {
-			value = 0;
+	}
+
+	public int getBalancedValue() {
+		if (getLength() < Configure.MIN_SCENE) {
+			return value * getLength() / Configure.MIN_SCENE;
+		} else if (getLength() > Configure.MAX_SCENE) {
+			return value * Configure.MAX_SCENE / Configure.MAX_SCENE;
+		} else {
+			return value;
 		}
 	}
 
@@ -46,6 +55,6 @@ public class Scene {
 
 	public String toString() {
 		return "Scene: " + id + " start: " + getStartTime() + " end: "
-				+ getEndTime() + " length " + getLength() + " Score: " + value;
+				+ getEndTime() + " length " + getLength() + " Score: " + getBalancedValue();
 	}
 }

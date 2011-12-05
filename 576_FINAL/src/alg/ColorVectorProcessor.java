@@ -103,8 +103,8 @@ public class ColorVectorProcessor extends Algorithm {
 		if (timestamp != 0) {
 			double angle = getCosAngle(vector, lastVector);
 			if (lastAngle != 0.0) {
-				if ((angle / lastAngle < 0.1 || lastAngle / angle < 0.1)
-						&& (angle > 3.0 || lastAngle > 3.0)
+				if ((angle / lastAngle < 0.15 || lastAngle / angle < 0.15)
+						&& (angle > 2.0 || lastAngle > 2.0)
 						&& (timestamp - startPoint) >= 24) {
 					// System.out.println(timestamp);
 					// System.out.println(angle);
