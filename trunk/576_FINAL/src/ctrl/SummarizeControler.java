@@ -8,6 +8,8 @@ import java.util.Random;
 
 import alg.ColorVectorProcessor;
 import alg.Context;
+import alg.MotionDetectAlgorithm;
+import alg.MotionValuation;
 import alg.SoundMergeAlgorithm;
 import alg.SoundValuation;
 
@@ -42,14 +44,15 @@ public class SummarizeControler {
 		buildShots();
 		buildScenes();
 		valuation();
-		buildNewVideo(percentage,video.getLength());
+		buildNewVideo(percentage, video.getLength());
 		output();
 	}
 
 	private void buildShots() {
 		System.out.println("Start Cut Shots");
 		Context context = new Context(video);
-		ColorVectorProcessor cvp = new ColorVectorProcessor(null, context);
+		MotionDetectAlgorithm mda = new MotionDetectAlgorithm(null, context);
+		ColorVectorProcessor cvp = new ColorVectorProcessor(mda, context);
 		cvp.processAll();
 
 		for (int i = 0; i < video.getShots().size(); i++) {
@@ -74,7 +77,8 @@ public class SummarizeControler {
 		System.out.print("Start Valuation: ");
 
 		Context context = new Context(video);
-		SoundValuation sva = new SoundValuation(null, context);
+		MotionValuation mv = new MotionValuation(null, context);
+		SoundValuation sva = new SoundValuation(mv, context);
 		sva.processAll();
 
 		System.out.println("Finish!");
