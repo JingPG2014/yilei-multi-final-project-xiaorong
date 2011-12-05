@@ -11,6 +11,9 @@ public class Frame {
 	private int timestamp;
 	private VideoBuffer vb;
 
+	private int soundAvg;
+	private int soundMax;
+
 	private Shot shot;
 	private Scene scene;
 
@@ -41,6 +44,22 @@ public class Frame {
 
 	public void setScene(Scene scene) {
 		this.scene = scene;
+	}
+
+	public int getSoundAvg() {
+		return soundAvg;
+	}
+
+	public void setSoundAvg(int soundAvg) {
+		this.soundAvg = soundAvg;
+	}
+
+	public int getSoundMax() {
+		return soundMax;
+	}
+
+	public void setSoundMax(int soundMax) {
+		this.soundMax = soundMax;
 	}
 
 }

@@ -22,38 +22,22 @@ public class SoundMergeAlgorithm extends Algorithm {
 		super(nextAlgorithm, context);
 	}
 
-	private static long AvgClip(int[] clip) {
-		long sum = 0;
-		for (int i = 0; i < clip.length; i++) {
-			sum += Math.abs(clip[i]);
-		}
-
-		return sum / clip.length;
-	}
-
-	private static long getMax(int[] clip) {
-		long max = 0;
-		for (int i = 0; i < clip.length; i++) {
-			if (Math.abs(clip[i]) > max) {
-				max = Math.abs(clip[i]);
-			}
-		}
-
-		return max;
-	}
-
 	private long avgFrames(int start, int end) {
 		long sum = 0;
+		Video video = context.getVideo();
+
 		for (int i = start; i < end; i++) {
-			sum += AvgClip(context.getVideo().getFrame(i).getAudio());
+			sum += video.getFrame(i).getSoundAvg();
 		}
 		return sum / (end - start);
 	}
 
 	private long maxFrames(int start, int end) {
 		long max = 0;
+		Video video = context.getVideo();
+
 		for (int i = start; i < end; i++) {
-			long subMax = getMax(context.getVideo().getFrame(i).getAudio());
+			long subMax = video.getFrame(i).getSoundMax();
 			if (subMax > max) {
 				max = subMax;
 			}
@@ -110,8 +94,8 @@ public class SoundMergeAlgorithm extends Algorithm {
 		for (int i = 0; i < 240; i++) {
 			System.out.println(i);
 			int[] clip = AudioBuffer.getInstance().getSound(i);
-			System.out.println("Avg: " + AvgClip(clip));
-			System.out.println("Max: " + getMax(clip));
+			///System.out.println("Avg: " + AvgClip(clip));
+			///System.out.println("Max: " + getMax(clip));
 		}
 	}
 
