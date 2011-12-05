@@ -13,7 +13,11 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import model.Frame;
+import model.Video;
+
 import config.Configure;
+import ctrl.ProjectCenter;
 
 public class AudioBuffer {
 	private static AudioBuffer ab = null;
@@ -37,6 +41,26 @@ public class AudioBuffer {
 		return sound;
 	}
 
+	private static long AvgClip(int[] clip) {
+		long sum = 0;
+		for (int i = 0; i < clip.length; i++) {
+			sum += Math.abs(clip[i]);
+		}
+
+		return sum / clip.length;
+	}
+
+	private static long getMax(int[] clip) {
+		long max = 0;
+		for (int i = 0; i < clip.length; i++) {
+			if (Math.abs(clip[i]) > max) {
+				max = Math.abs(clip[i]);
+			}
+		}
+
+		return max;
+	}
+
 	private List<byte[]> outputBuffer;
 	private int[] intBuffer;
 	// private List<byte[]> inputBuffer;
@@ -56,7 +80,7 @@ public class AudioBuffer {
 
 	}
 
-	public void init(File file, int length) {
+	public void init(File file, int length, Frame[] frames) {
 		System.out.print("Initialize audioBuffer: ");
 
 		this.length = length;
@@ -103,8 +127,13 @@ public class AudioBuffer {
 			}
 		}
 
-		byte[] totalBuffer = new byte[(int) (audioFormat.getFrameRate()
-				* length * audioFormat.getFrameSize() / Configure.FRAME_RATE) + 24];
+		int len = (int) (audioFormat.getFrameRate() * length
+				* audioFormat.getFrameSize() / Configure.FRAME_RATE);
+		if (len % 24 != 0) {
+			len = len / 24 * 24 + 24;
+		}
+
+		byte[] totalBuffer = new byte[len];
 
 		// System.out.println(length);
 
@@ -120,6 +149,10 @@ public class AudioBuffer {
 		}
 
 		intBuffer = transform(totalBuffer);
+
+		for (int i = 0; i < frames.length; i++) {
+			frames[i].setSoundAvg((int) AvgClip(getSound(i)));
+		}
 
 		System.out.println("Finish!");
 	}

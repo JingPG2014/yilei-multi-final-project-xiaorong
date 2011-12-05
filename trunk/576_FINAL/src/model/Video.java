@@ -26,8 +26,6 @@ public class Video {
 		audioFile = audio;
 
 		int length = VideoReader.getMaxTime(video);
-		VideoBuffer.getInstance().init(video, 0);
-		AudioBuffer.getInstance().init(audio, length);
 
 		frames = new Frame[length];
 		for (int i = 0; i < frames.length; i++) {
@@ -36,6 +34,9 @@ public class Video {
 
 		shots = new ArrayList<Shot>();
 		scenes = new LinkedList<Scene>();
+
+		VideoBuffer.getInstance().init(video, 0);
+		AudioBuffer.getInstance().init(audio, length, frames);
 	}
 
 	public Frame getFrame(int i) {
