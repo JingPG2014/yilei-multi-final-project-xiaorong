@@ -70,8 +70,8 @@ public class SoundMergeAlgorithm extends Algorithm {
 				.getEndTime() - 6), Math.min(shots.get(index).getEndTime() + 6,
 				video.getLength() - 1));
 
-		return !((lastTwoAVG / lastFrameAVG > 2)
-				|| (futureTwoAVG / lastFrameAVG > 2) || (lastFrameAVG < video
+		return !((lastTwoAVG > lastFrameAVG * 2)
+				|| (futureTwoAVG > lastFrameAVG * 2) || (lastFrameAVG < video
 				.getSoundAvg() / 2));
 	}
 

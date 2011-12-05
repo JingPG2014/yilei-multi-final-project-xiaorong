@@ -29,7 +29,7 @@ public class VideoWriter {
 		File audioFile = video.getAudioFile();
 		
 		File ovFile = new File(videoFile.getPath().replaceFirst(".rgb", "_output.rgb"));
-		File oaFile = new File(audioFile.getPath().replaceFirst(".rgb", "_output.rgb"));
+		File oaFile = new File(audioFile.getPath().replaceFirst(".wav", "_output.wav"));
 
 		try {
 			System.out.print("Start WriteFile: ");
