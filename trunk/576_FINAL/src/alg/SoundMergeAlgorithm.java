@@ -13,8 +13,6 @@ public class SoundMergeAlgorithm extends Algorithm {
 		super(nextAlgorithm, context);
 	}
 
-	
-
 	private static long sumClip(int[] clip) {
 		long sum = 0;
 		for (int i = 0; i < clip.length; i++) {
@@ -25,14 +23,14 @@ public class SoundMergeAlgorithm extends Algorithm {
 	}
 
 	private static long getMax(int[] clip) {
-		long sum = 0;
+		long max = 0;
 		for (int i = 0; i < clip.length; i++) {
-			if (Math.abs(clip[i]) > sum) {
-				sum = Math.abs(clip[i]);
+			if (Math.abs(clip[i]) > max) {
+				max = Math.abs(clip[i]);
 			}
 		}
-		System.out.println("Max: " + sum);
-		return sum;
+		
+		return max;
 	}
 
 	@Override
@@ -55,7 +53,7 @@ public class SoundMergeAlgorithm extends Algorithm {
 			System.out.println(i); 
 			int[] clip = AudioBuffer.getInstance().getSound(i);
 			System.out.println("Avg: " + sumClip(clip));
-			getMax(clip);
+			System.out.println("Max: " + getMax(clip));
 		}
 	}
 

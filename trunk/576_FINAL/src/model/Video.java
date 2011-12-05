@@ -19,6 +19,8 @@ public class Video {
 	private ArrayList<Shot> shots;
 	private LinkedList<Scene> scenes;
 
+	private List<Integer> results;
+
 	public Video(File video, File audio) throws IOException {
 		videoFile = video;
 		audioFile = audio;
@@ -67,14 +69,15 @@ public class Video {
 	public LinkedList<Scene> getScenes() {
 		return scenes;
 	}
+	
 
-	public void reBuildScenes(List<Integer> results) {
-		LinkedList<Scene> newScenes = new LinkedList<Scene>();
-		for (int i = results.size() - 1; i >= 0; i--) {
-			// System.out.println(i);
-			newScenes.add(scenes.get(results.get(i)));
-		}
-		scenes = newScenes;
+	
+	public List<Integer> getList() {
+		return results;
+	}
+
+	public void setList(List<Integer> list) {
+		this.results = list;
 	}
 
 	public int getLength() {

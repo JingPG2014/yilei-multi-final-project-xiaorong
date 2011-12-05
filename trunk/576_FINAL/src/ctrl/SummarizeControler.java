@@ -41,7 +41,7 @@ public class SummarizeControler {
 		buildShots();
 		buildScenes();
 		valuation();
-		buildNewVideo(percentage, video.getLength());
+		buildNewVideo(percentage, 4800);
 		output();
 	}
 
@@ -49,27 +49,27 @@ public class SummarizeControler {
 		System.out.println("Start Cut Shots");
 		Context context = new Context(video);
 		ColorVectorProcessor cvp = new ColorVectorProcessor(null, context);
-		cvp.processAll();
-		
-		for(Shot s : video.getShots()){
+		cvp.processAll(4800);
+
+		for (Shot s : video.getShots()) {
 			System.out.println(s.getLength());
 		}
-		
-		//for (int i = 0; i < video.getShots().size(); i++) {
-		//	System.out.println(video.getShots().get(i));
-		//}
+
+		// for (int i = 0; i < video.getShots().size(); i++) {
+		// System.out.println(video.getShots().get(i));
+		// }
 		System.out.println("Finish Cut Shots");
 	}
 
 	private void buildScenes() {
 		System.out.print("Start Cut Scene: ");
-		Context context = new Context(video);
-		SoundMergeAlgorithm sma = new SoundMergeAlgorithm(null, context);
-		sma.processAll();
-		
-		//for (int i = 0; i < video.getShots().size(); i++) {
-		//	video.addScene(i, i);
-		//}
+		//Context context = new Context(video);
+		//SoundMergeAlgorithm sma = new SoundMergeAlgorithm(null, context);
+		//sma.processAll();
+
+		for (int i = 0; i < video.getShots().size(); i++) {
+		 video.addScene(i, i);
+		 }
 		System.out.println("Finish!");
 	}
 
@@ -88,7 +88,7 @@ public class SummarizeControler {
 		// int maxSize = 9;
 
 		int[][] matrix = new int[video.getScenes().size() + 1][maxSize + 1];
-		ArrayList<Integer> result = new ArrayList<Integer>();
+		ArrayList<Integer> tArray = new ArrayList<Integer>();
 
 		List<Scene> scenes = video.getScenes();
 
@@ -118,23 +118,26 @@ public class SummarizeControler {
 		// System.out.println();
 		// }
 
-		int max = matrix[scenes.size()][maxSize];
-		// System.out.println(max);
-
 		for (int i = scenes.size(); i > 0; i--) {
 			if (maxSize >= scenes.get(i - 1).getLength()
 					&& matrix[i][maxSize] == matrix[i - 1][maxSize
 							- scenes.get(i - 1).getLength()]
 							+ scenes.get(i - 1).getValue()) {
-				result.add(i - 1);
+				tArray.add(i - 1);
 				// System.out.print((i - 1) + " ");
 				maxSize -= scenes.get(i - 1).getLength();
 			}
 		}
 
+		ArrayList<Integer> results = new ArrayList<Integer>();
+
+		for (int i = tArray.size() - 1; i >= 0; i--) {
+			results.add(tArray.get(i));
+		}
+
 		// System.out.print(" Length " + result.size());
 
-		video.reBuildScenes(result);
+		video.setList(results);
 		System.out.println(" Finish");
 	}
 
