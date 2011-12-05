@@ -22,22 +22,20 @@ public class SoundMergeAlgorithm extends Algorithm {
 		super(nextAlgorithm, context);
 	}
 
-	private long avgFrames(int start, int end) {
+	public static int avgFrames(Video video, int start, int end) {
 		long sum = 0;
-		Video video = context.getVideo();
 
 		for (int i = start; i < end; i++) {
 			sum += video.getFrame(i).getSoundAvg();
 		}
-		return sum / (end - start);
+		return (int) (sum / (end - start));
 	}
 
-	private long maxFrames(int start, int end) {
-		long max = 0;
-		Video video = context.getVideo();
+	public static int maxFrames(Video video, int start, int end) {
+		int max = 0;
 
 		for (int i = start; i < end; i++) {
-			long subMax = video.getFrame(i).getSoundMax();
+			int subMax = video.getFrame(i).getSoundMax();
 			if (subMax > max) {
 				max = subMax;
 			}
@@ -45,22 +43,23 @@ public class SoundMergeAlgorithm extends Algorithm {
 		return max;
 	}
 
-	private boolean soundMerge(int index) {
+	public boolean soundMerge(int index) {
 		Video video = context.getVideo();
 		List<Shot> shots = video.getShots();
 
-		long lastTwoAVG = avgFrames(
+		long lastTwoAVG = avgFrames(video,
 				Math.max(0, shots.get(index).getEndTime() - 48),
 				shots.get(index).getEndTime());
-		long futureTwoAVG = avgFrames(shots.get(index).getEndTime(), Math.min(
-				shots.get(index).getEndTime() + 48, video.getLength() - 1));
+		long futureTwoAVG = avgFrames(video, shots.get(index).getEndTime(),
+				Math.min(shots.get(index).getEndTime() + 48,
+						video.getLength() - 1));
 
-		long lastFrameAVG = avgFrames(Math.max(0,
-				shots.get(index).getEndTime() - 6), Math.min(shots.get(index)
-				.getEndTime() + 6, video.getLength() - 1));
+		long lastFrameAVG = avgFrames(video, Math.max(0, shots.get(index)
+				.getEndTime() - 6), Math.min(shots.get(index).getEndTime() + 6,
+				video.getLength() - 1));
 
 		return !((lastTwoAVG / lastFrameAVG > 2)
-				|| (futureTwoAVG / lastFrameAVG > 2) || (lastFrameAVG < 2000));
+				|| (futureTwoAVG / lastFrameAVG > 2) || (lastFrameAVG < 1500));
 	}
 
 	private boolean sizeMerge(int index) {
@@ -87,16 +86,23 @@ public class SoundMergeAlgorithm extends Algorithm {
 
 	public static void main(String args[]) throws IOException {
 		File v = new File("data/terminator3.rgb");
-		File a = new File("data/terminator_06.wav");
+		File a = new File("data/sports1.wav");
 
 		ProjectCenter.getInstance().init(v, a);
+		SoundMergeAlgorithm sma = new SoundMergeAlgorithm(null, new Context(
+				ProjectCenter.getInstance().getVideo()));
 
 		for (int i = 0; i < 240; i++) {
 			System.out.println(i);
-			int[] clip = AudioBuffer.getInstance().getSound(i);
-			///System.out.println("Avg: " + AvgClip(clip));
-			///System.out.println("Max: " + getMax(clip));
+			System.out.println("Avg: "
+					+ ProjectCenter.getInstance().getVideo().getFrame(i)
+							.getSoundAvg());
+			System.out.println("Max: "
+					+ ProjectCenter.getInstance().getVideo().getFrame(i)
+							.getSoundMax());
 		}
+
+		//System.out.println(sma.avgFrames(0, 1));
 	}
 
 	@Override

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import alg.SoundMergeAlgorithm;
+
 import util.AudioBuffer;
 import util.VideoBuffer;
 import util.VideoReader;
@@ -14,6 +16,9 @@ public class Video {
 
 	private File videoFile;
 	private File audioFile;
+
+	private int soundAvg;
+	private int soundMax;
 
 	private Frame[] frames;
 	private ArrayList<Shot> shots;
@@ -37,6 +42,24 @@ public class Video {
 
 		VideoBuffer.getInstance().init(video, 0);
 		AudioBuffer.getInstance().init(audio, length, frames);
+
+		long sum = 0;
+
+		for (int i = 0; i < length; i++) {
+			sum += frames[i].getSoundAvg();
+			if (frames[i].getSoundMax() > soundMax) {
+				soundMax = frames[i].getSoundMax();
+			}
+		}
+		soundAvg = (int) (sum / length);
+	}
+
+	public int getSoundAvg() {
+		return soundAvg;
+	}
+
+	public int getSoundMax() {
+		return soundMax;
 	}
 
 	public Frame getFrame(int i) {
@@ -114,4 +137,5 @@ public class Video {
 	public String getAudioPath() {
 		return audioFile.getPath();
 	}
+
 }
