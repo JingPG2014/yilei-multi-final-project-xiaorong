@@ -1,6 +1,5 @@
 package model;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import util.AudioBuffer;
@@ -13,6 +12,8 @@ public class Frame {
 
 	private int soundAvg;
 	private int soundMax;
+
+	private int motionValue;
 
 	private Shot shot;
 	private Scene scene;
@@ -62,4 +63,11 @@ public class Frame {
 		this.soundMax = soundMax;
 	}
 
+	public int getMotionValue() {
+		return motionValue;
+	}
+
+	public void setMotionValue(int motionValue) {
+		this.motionValue = motionValue;
+	}
 }
