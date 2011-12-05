@@ -1,6 +1,6 @@
 package alg;
 
-public class MotionDetectProcessor extends Algorithm{
+public class MotionDetectProcessor extends Algorithm {
 
 	public MotionDetectProcessor(Algorithm nextAlgorithm, Context context) {
 		super(nextAlgorithm, context);
@@ -8,15 +8,20 @@ public class MotionDetectProcessor extends Algorithm{
 	}
 
 	@Override
-	protected void preProcess(int timestamp) {
+	protected void preProcess(int index) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	protected void proProcess(int timestamp) {
+	protected void proProcess(int index) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
+	@Override
+	public void processAll() {
+		processAll(context.getVideo().getScenes().size());
+	}
+
 }

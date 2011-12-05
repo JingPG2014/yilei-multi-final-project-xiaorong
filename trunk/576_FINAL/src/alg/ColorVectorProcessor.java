@@ -74,16 +74,21 @@ public class ColorVectorProcessor extends Algorithm {
 		return Math.sqrt(out);
 	}
 
-	private void newShot(int timestamp) {
+	private void newShot(int timestamp, double endAngle) {
 		Video video = context.getVideo();
-		if (startPoint % 6 != 0) {
-			startPoint = startPoint / 6 * 6;
+		if (startPoint % 4 != 0) {
+			startPoint = startPoint / 4 * 4;
 		}
-		video.addShot(startPoint, (timestamp - 1) / 6 * 6);
+		video.addShot(startPoint, (timestamp - 1) / 4 * 4, endAngle);
 
 		vectorList.clear();
 
 		startPoint = timestamp;
+	}
+
+	@Override
+	public void processAll() {
+		processAll(context.getVideo().getLength());
 	}
 
 	@Override
@@ -98,13 +103,13 @@ public class ColorVectorProcessor extends Algorithm {
 		if (timestamp != 0) {
 			double angle = getCosAngle(vector, lastVector);
 			if (lastAngle != 0.0) {
-				if ((angle / lastAngle < 0.2 || lastAngle / angle < 0.2)
-						&& (angle > 1.0 || lastAngle > 1.0)
+				if ((angle / lastAngle < 0.1 || lastAngle / angle < 0.1)
+						&& (angle > 3.0 || lastAngle > 3.0)
 						&& (timestamp - startPoint) > 24) {
-					//System.out.println(timestamp);
-					//System.out.println(angle);
-					//ystem.out.println(lastAngle);
-					newShot(timestamp);
+					// System.out.println(timestamp);
+					// System.out.println(angle);
+					// System.out.println(lastAngle);
+					newShot(timestamp, Math.max(angle, lastAngle));
 					startPoint = timestamp;
 					lastAngle = 0.0;
 				}
@@ -129,4 +134,5 @@ public class ColorVectorProcessor extends Algorithm {
 		ColorVectorProcessor cvp = new ColorVectorProcessor(null, null);
 		// System.out.println(cvp.getCosAngle(a, b));
 	}
+
 }
