@@ -152,6 +152,7 @@ public class AudioBuffer {
 
 		for (int i = 0; i < frames.length; i++) {
 			frames[i].setSoundAvg((int) AvgClip(getSound(i)));
+			frames[i].setSoundMax((int) getMax(getSound(i)));
 		}
 
 		System.out.println("Finish!");

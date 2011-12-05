@@ -39,6 +39,7 @@ public class VideoWriter {
 			// System.out.print(scenes.size());
 			for (int x = 0; x < video.getList().size(); x++) {
 				Scene scene = video.getScenes().get(video.getList().get(x));
+				System.out.println(scene);
 				for (int i = scene.getStartTime(); i < scene.getEndTime(); i++) {
 					length++;
 					fos.write(reader.readByte(i));

@@ -46,6 +46,6 @@ public class Scene {
 
 	public String toString() {
 		return "Scene: " + id + " start: " + getStartTime() + " end: "
-				+ getEndTime() + " length " + getLength();
+				+ getEndTime() + " length " + getLength() + " Score: " + value;
 	}
 }
